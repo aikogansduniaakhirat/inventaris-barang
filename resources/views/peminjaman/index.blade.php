@@ -9,10 +9,24 @@
         <p class="page-header-sub">Kelola transaksi peminjaman dan pengembalian barang</p>
     </div>
     <a href="{{ route('peminjaman.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg me-1"></i> Catat Peminjaman
+        <i class="bi bi-plus-lg me-1"></i>
+        {{ auth()->user()->isAdmin() ? 'Catat Peminjaman' : 'Ajukan Peminjaman' }}
     </a>
 </div>
 
+{{-- Alert: Menunggu Persetujuan (Admin only) --}}
+@if(auth()->user()->isAdmin() && $totalMenunggu > 0)
+<div class="alert alert-warning alert-dismissible fade show d-flex align-items-center gap-3 mb-3" role="alert">
+    <i class="bi bi-hourglass-split fs-5"></i>
+    <div>
+        <strong>{{ $totalMenunggu }} permintaan peminjaman menunggu persetujuan!</strong>
+        <a href="?status=menunggu" class="alert-link ms-2">Tinjau sekarang →</a>
+    </div>
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"></button>
+</div>
+@endif
+
+{{-- Alert: Terlambat --}}
 @if($totalTerlambat > 0)
 <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center gap-3 mb-4" role="alert">
     <i class="bi bi-exclamation-triangle-fill fs-5"></i>
@@ -37,9 +51,13 @@
                 <label class="form-label">Status</label>
                 <select name="status" class="form-select">
                     <option value="">Semua</option>
+                    @if(auth()->user()->isAdmin())
+                    <option value="menunggu" {{ request('status')=='menunggu' ? 'selected':'' }}>⏳ Menunggu ACC</option>
+                    @endif
                     <option value="dipinjam" {{ request('status')=='dipinjam' ? 'selected':'' }}>Dipinjam</option>
                     <option value="terlambat" {{ request('status')=='terlambat' ? 'selected':'' }}>Terlambat</option>
                     <option value="dikembalikan" {{ request('status')=='dikembalikan' ? 'selected':'' }}>Dikembalikan</option>
+                    <option value="ditolak" {{ request('status')=='ditolak' ? 'selected':'' }}>Ditolak</option>
                     <option value="rusak" {{ request('status')=='rusak' ? 'selected':'' }}>Rusak</option>
                 </select>
             </div>
@@ -62,6 +80,9 @@
 <div class="card">
     <div class="card-header">
         Daftar Peminjaman <span class="badge bg-primary ms-1">{{ $peminjamans->total() }}</span>
+        @if(auth()->user()->isStaff())
+        <span class="badge bg-secondary ms-1">Hanya milik Anda</span>
+        @endif
     </div>
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
@@ -80,7 +101,7 @@
             </thead>
             <tbody>
                 @forelse($peminjamans as $p)
-                <tr class="{{ $p->is_terlambat ? 'table-danger' : '' }}">
+                <tr class="{{ $p->is_terlambat ? 'table-danger' : ($p->status === 'menunggu' ? 'table-warning' : ($p->status === 'ditolak' ? 'table-light' : '')) }}">
                     <td><a href="{{ route('peminjaman.show', $p) }}" class="fw-semibold text-decoration-none font-monospace">{{ $p->kode_peminjaman }}</a></td>
                     <td>
                         <div class="fw-semibold">{{ Str::limit($p->barang->nama_barang, 30) }}</div>
@@ -100,7 +121,15 @@
                         <br><small class="badge bg-warning text-dark">{{ $p->sisa_hari }} hari lagi</small>
                         @endif
                     </td>
-                    <td><span class="badge bg-{{ $p->status_badge }}">{{ $p->status_label }}</span></td>
+                    <td>
+                        @if($p->status === 'menunggu')
+                            <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split me-1"></i>Menunggu ACC</span>
+                        @elseif($p->status === 'ditolak')
+                            <span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i>Ditolak</span>
+                        @else
+                            <span class="badge bg-{{ $p->status_badge }}">{{ $p->status_label }}</span>
+                        @endif
+                    </td>
                     <td>
                         @if($p->kondisi_kembali)
                             @php
@@ -126,6 +155,23 @@
                     <td>
                         <div class="d-flex gap-1">
                             <a href="{{ route('peminjaman.show', $p) }}" class="btn btn-sm btn-outline-primary" title="Detail"><i class="bi bi-eye"></i></a>
+
+                            {{-- Tombol Setujui & Tolak (Admin only, status menunggu) --}}
+                            @if(auth()->user()->isAdmin() && $p->status === 'menunggu')
+                            <form action="{{ route('peminjaman.approve', $p) }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-success" title="Setujui"
+                                    onclick="return confirm('Setujui permintaan peminjaman ini?')">
+                                    <i class="bi bi-check-lg"></i>
+                                </button>
+                            </form>
+                            <button type="button" class="btn btn-sm btn-outline-danger" title="Tolak"
+                                data-bs-toggle="modal" data-bs-target="#modalTolak{{ $p->id }}">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                            @endif
+
+                            {{-- Tombol Pengembalian --}}
                             @if(in_array($p->status, ['dipinjam','terlambat']))
                             <a href="{{ route('peminjaman.form-pengembalian', $p) }}" class="btn btn-sm btn-outline-success" title="Proses Pengembalian">
                                 <i class="bi bi-arrow-return-left"></i>
@@ -134,6 +180,33 @@
                         </div>
                     </td>
                 </tr>
+
+                {{-- Modal Tolak --}}
+                @if(auth()->user()->isAdmin() && $p->status === 'menunggu')
+                <div class="modal fade" id="modalTolak{{ $p->id }}" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <form action="{{ route('peminjaman.reject', $p) }}" method="POST">
+                                @csrf
+                                <div class="modal-header">
+                                    <h5 class="modal-title"><i class="bi bi-x-circle text-danger me-2"></i>Tolak Permintaan</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-muted mb-3">Permintaan peminjaman <strong>{{ $p->kode_peminjaman }}</strong> oleh <strong>{{ $p->nama_peminjam }}</strong> akan ditolak.</p>
+                                    <label class="form-label">Alasan Penolakan (opsional)</label>
+                                    <textarea name="alasan_tolak" class="form-control" rows="3" placeholder="Masukkan alasan penolakan..."></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle me-1"></i>Tolak Permintaan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
                 @empty
                 <tr><td colspan="9">
                     <div class="empty-state">

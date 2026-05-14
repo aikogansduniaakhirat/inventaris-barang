@@ -29,6 +29,12 @@ Route::middleware(['auth', 'role'])->group(function () {
     Route::get('/peminjaman/{peminjaman}/pengembalian',  [PeminjamanController::class, 'formPengembalian'])->name('peminjaman.form-pengembalian');
     Route::post('/peminjaman/{peminjaman}/pengembalian', [PeminjamanController::class, 'prosesPengembalian'])->name('peminjaman.proses-pengembalian');
 
+    // Approve & Reject — hanya Admin
+    Route::middleware('role:admin')->group(function () {
+        Route::post('/peminjaman/{peminjaman}/approve', [PeminjamanController::class, 'approve'])->name('peminjaman.approve');
+        Route::post('/peminjaman/{peminjaman}/reject',  [PeminjamanController::class, 'reject'])->name('peminjaman.reject');
+    });
+
     // ── Laporan ──────────────────────────────────────────────────────────────
     Route::prefix('laporan')->name('laporan.')->group(function () {
         Route::get('/stok-barang',             [LaporanController::class, 'stokBarang'])->name('stok-barang');

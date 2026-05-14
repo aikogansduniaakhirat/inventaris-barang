@@ -12,7 +12,13 @@ class PeminjamanController extends Controller
 {
     public function index(Request $request)
     {
+        $user  = auth()->user();
         $query = Peminjaman::with(['barang.kategori', 'user']);
+
+        // Staff hanya lihat peminjaman milik sendiri
+        if ($user->isStaff()) {
+            $query->where('user_id', $user->id);
+        }
 
         if ($request->filled('status')) {
             $query->where('status', $request->status);
@@ -36,8 +42,9 @@ class PeminjamanController extends Controller
         $totalTerlambat = Peminjaman::where('status', 'terlambat')
                                     ->orWhere(fn($q) => $q->where('status','dipinjam')->where('tanggal_kembali_rencana','<',now()))
                                     ->count();
+        $totalMenunggu  = Peminjaman::where('status', 'menunggu')->count();
 
-        return view('peminjaman.index', compact('peminjamans', 'totalTerlambat'));
+        return view('peminjaman.index', compact('peminjamans', 'totalTerlambat', 'totalMenunggu'));
     }
 
     public function create(Request $request)
@@ -54,6 +61,7 @@ class PeminjamanController extends Controller
     {
         $validated = $request->validated();
         $barang    = Barang::findOrFail($validated['barang_id']);
+        $user      = auth()->user();
 
         // Validasi stok mencukupi
         if ($barang->jumlah_tersedia < $validated['jumlah_pinjam']) {
@@ -61,25 +69,86 @@ class PeminjamanController extends Controller
                          ->with('error', "Stok tersedia hanya {$barang->jumlah_tersedia} {$barang->satuan}.");
         }
 
-        DB::transaction(function () use ($validated, $barang) {
+        DB::transaction(function () use ($validated, $barang, $user) {
             $validated['kode_peminjaman'] = $this->generateKodePeminjaman();
-            $validated['user_id']         = auth()->id();
-            $validated['status']          = 'dipinjam';
+            $validated['user_id']         = $user->id;
 
-            Peminjaman::create($validated);
-
-            // Kurangi stok
-            $barang->decrement('jumlah_tersedia', $validated['jumlah_pinjam']);
+            if ($user->isAdmin()) {
+                // Admin → langsung dipinjam, kurangi stok
+                $validated['status'] = 'dipinjam';
+                Peminjaman::create($validated);
+                $barang->decrement('jumlah_tersedia', $validated['jumlah_pinjam']);
+            } else {
+                // Staff → menunggu ACC admin, stok belum berkurang
+                $validated['status'] = 'menunggu';
+                Peminjaman::create($validated);
+            }
         });
 
-        return redirect()->route('peminjaman.index')
-                         ->with('success', 'Peminjaman berhasil dicatat.');
+        $msg = $user->isAdmin()
+            ? 'Peminjaman berhasil dicatat.'
+            : 'Permintaan peminjaman berhasil diajukan. Menunggu persetujuan admin.';
+
+        return redirect()->route('peminjaman.index')->with('success', $msg);
     }
 
     public function show(Peminjaman $peminjaman)
     {
+        // Staff hanya bisa lihat peminjaman miliknya sendiri
+        if (auth()->user()->isStaff() && $peminjaman->user_id !== auth()->id()) {
+            abort(403, 'Akses ditolak.');
+        }
         $peminjaman->load(['barang.kategori', 'user']);
         return view('peminjaman.show', compact('peminjaman'));
+    }
+
+    /**
+     * Admin: Setujui permintaan peminjaman dari staff.
+     */
+    public function approve(Peminjaman $peminjaman)
+    {
+        if ($peminjaman->status !== 'menunggu') {
+            return redirect()->route('peminjaman.show', $peminjaman)
+                             ->with('info', 'Peminjaman ini tidak dalam status menunggu.');
+        }
+
+        $barang = $peminjaman->barang;
+
+        if ($barang->jumlah_tersedia < $peminjaman->jumlah_pinjam) {
+            return redirect()->route('peminjaman.show', $peminjaman)
+                             ->with('error', "Stok tidak mencukupi. Tersedia: {$barang->jumlah_tersedia} {$barang->satuan}.");
+        }
+
+        DB::transaction(function () use ($peminjaman, $barang) {
+            $peminjaman->update(['status' => 'dipinjam']);
+            $barang->decrement('jumlah_tersedia', $peminjaman->jumlah_pinjam);
+        });
+
+        return redirect()->route('peminjaman.show', $peminjaman)
+                         ->with('success', 'Peminjaman berhasil disetujui. Stok telah dikurangi.');
+    }
+
+    /**
+     * Admin: Tolak permintaan peminjaman dari staff.
+     */
+    public function reject(Request $request, Peminjaman $peminjaman)
+    {
+        if ($peminjaman->status !== 'menunggu') {
+            return redirect()->route('peminjaman.show', $peminjaman)
+                             ->with('info', 'Peminjaman ini tidak dalam status menunggu.');
+        }
+
+        $validated = $request->validate([
+            'alasan_tolak' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        $peminjaman->update([
+            'status'       => 'ditolak',
+            'alasan_tolak' => $validated['alasan_tolak'] ?? null,
+        ]);
+
+        return redirect()->route('peminjaman.show', $peminjaman)
+                         ->with('success', 'Permintaan peminjaman telah ditolak.');
     }
 
     public function formPengembalian(Peminjaman $peminjaman)
@@ -87,6 +156,10 @@ class PeminjamanController extends Controller
         if ($peminjaman->status === 'dikembalikan') {
             return redirect()->route('peminjaman.show', $peminjaman)
                              ->with('info', 'Barang ini sudah dikembalikan.');
+        }
+        if (!in_array($peminjaman->status, ['dipinjam', 'terlambat'])) {
+            return redirect()->route('peminjaman.show', $peminjaman)
+                             ->with('info', 'Peminjaman ini tidak dapat diproses pengembaliannya.');
         }
         $peminjaman->load(['barang', 'user']);
         return view('peminjaman.pengembalian', compact('peminjaman'));
@@ -116,20 +189,14 @@ class PeminjamanController extends Controller
             $kondisi = $validated['kondisi_kembali'];
 
             if ($kondisi === 'baik') {
-                // Semua unit kembali normal → tambah tersedia
                 $barang->increment('jumlah_tersedia', $jumlah);
-
             } else {
-                // Unit kembali rusak:
-                // - jumlah_tersedia TIDAK bertambah (unit rusak tidak bisa dipinjam lagi)
-                // - catat ke jumlah_rusak_ringan / jumlah_rusak_berat
                 if ($kondisi === 'rusak_ringan') {
                     $barang->increment('jumlah_rusak_ringan', $jumlah);
                 } else {
                     $barang->increment('jumlah_rusak_berat', $jumlah);
                 }
 
-                // Otomatis update kondisi keseluruhan barang
                 $barang->refresh();
                 $totalRusak = $barang->jumlah_rusak_ringan + $barang->jumlah_rusak_berat;
                 if ($totalRusak === 0) {
@@ -142,7 +209,6 @@ class PeminjamanController extends Controller
                 $barang->update(['kondisi' => $newKondisi]);
             }
         });
-
 
         return redirect()->route('peminjaman.show', $peminjaman)
                          ->with('success', 'Pengembalian barang berhasil dicatat.');

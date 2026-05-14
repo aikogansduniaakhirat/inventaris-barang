@@ -22,13 +22,13 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="mb-3">
-                <label class="form-label fw-semibold" for="email">Email</label>
+                <label class="form-label fw-semibold" for="login">Username atau Email</label>
                 <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                    <input id="email" type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                           value="{{ old('email') }}" required autofocus autocomplete="username"
-                           placeholder="admin@inventaris.sch.id">
-                    @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                    <input id="login" type="text" name="login" class="form-control @error('login') is-invalid @enderror"
+                           value="{{ old('login') }}" required autofocus autocomplete="username"
+                           placeholder="budi.staff atau admin@inventaris.sch.id">
+                    @error('login')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
             </div>
 
@@ -64,9 +64,13 @@
 
         <div class="mt-4 p-3 rounded" style="background:#F8FAFC; border:1px solid #E2E8F0;">
             <p class="text-muted mb-1" style="font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Demo Credentials</p>
-            <div class="d-flex gap-3">
+            <div class="d-flex gap-3 flex-wrap">
                 <div>
-                    <span class="text-muted-sm d-block">Email</span>
+                    <span class="text-muted-sm d-block">Username</span>
+                    <code style="font-size:0.8rem;">admin</code>
+                </div>
+                <div>
+                    <span class="text-muted-sm d-block">atau Email</span>
                     <code style="font-size:0.8rem;">admin@inventaris.sch.id</code>
                 </div>
                 <div>

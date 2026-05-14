@@ -31,7 +31,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'         => ['required', 'string', 'max:50', 'unique:users,name', 'regex:/^[a-z0-9._]+$/'],
+            'name'         => ['nullable', 'string', 'max:50', 'unique:users,name', 'regex:/^[a-z0-9._]+$/'],
             'nama_lengkap' => ['required', 'string', 'max:200'],
             'email'        => ['required', 'email', 'unique:users,email'],
             'telepon'      => ['nullable', 'string', 'max:20'],
@@ -40,6 +40,11 @@ class UserController extends Controller
         ], [
             'name.regex' => 'Username hanya boleh huruf kecil, angka, titik, dan underscore.',
         ]);
+
+        // Auto-generate username jika kosong
+        if (empty($validated['name'])) {
+            $validated['name'] = $this->generateUsername($validated['nama_lengkap'], $validated['role']);
+        }
 
         $validated['password'] = Hash::make($validated['password']);
         User::create($validated);
@@ -81,10 +86,33 @@ class UserController extends Controller
         if ($user->id === auth()->id()) {
             return redirect()->route('user.index')->with('error', 'Tidak dapat menghapus akun sendiri.');
         }
-        if ($user->peminjamans()->whereIn('status', ['dipinjam', 'terlambat'])->count() > 0) {
-            return redirect()->route('user.index')->with('error', 'User masih memiliki peminjaman aktif.');
+        if ($user->peminjamans()->whereIn('status', ['dipinjam', 'terlambat', 'menunggu'])->count() > 0) {
+            return redirect()->route('user.index')->with('error', 'User masih memiliki peminjaman aktif atau menunggu persetujuan.');
         }
         $user->delete();
         return redirect()->route('user.index')->with('success', 'User berhasil dihapus.');
+    }
+
+    /**
+     * Generate username otomatis dari nama lengkap.
+     * Format: namapertama.staff (atau namapertama.admin untuk admin)
+     * Jika sudah ada → tambahkan angka: namapertama2.staff, namapertama3.staff, dst.
+     */
+    private function generateUsername(string $namaLengkap, string $role): string
+    {
+        // Ambil kata pertama, bersihkan karakter non-alphanumeric, jadikan lowercase
+        $namaDepan = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', explode(' ', trim($namaLengkap))[0]));
+        if (empty($namaDepan)) $namaDepan = 'user';
+
+        $base     = $namaDepan . '.' . $role;
+        $username = $base;
+        $counter  = 2;
+
+        while (User::where('name', $username)->exists()) {
+            $username = $namaDepan . $counter . '.' . $role;
+            $counter++;
+        }
+
+        return $username;
     }
 }

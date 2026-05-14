@@ -13,7 +13,7 @@
 
 <div class="row justify-content-center">
     <div class="col-12 col-lg-7">
-        <form action="{{ route('user.store') }}" method="POST">
+        <form action="{{ route('user.store') }}" method="POST" id="formCreateUser">
             @csrf
             <div class="card">
                 <div class="card-header"><i class="bi bi-person-plus me-2 text-primary"></i>Informasi User</div>
@@ -21,15 +21,30 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
-                            <input type="text" name="nama_lengkap" class="form-control @error('nama_lengkap') is-invalid @enderror"
+                            <input type="text" name="nama_lengkap" id="nama_lengkap"
+                                   class="form-control @error('nama_lengkap') is-invalid @enderror"
                                    value="{{ old('nama_lengkap') }}" required placeholder="Nama lengkap">
                             @error('nama_lengkap')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Username <span class="text-danger">*</span></label>
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                                   value="{{ old('name') }}" required placeholder="budi.staff (a-z, 0-9, ., _)">
+                            <label class="form-label">Role <span class="text-danger">*</span></label>
+                            <select name="role" id="role" class="form-select @error('role') is-invalid @enderror" required>
+                                <option value="staff" {{ old('role','staff')=='staff'?'selected':'' }}>Staff</option>
+                                <option value="admin" {{ old('role')=='admin'?'selected':'' }}>Administrator</option>
+                            </select>
+                            @error('role')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Username</label>
+                            <input type="text" name="name" id="name"
+                                   class="form-control @error('name') is-invalid @enderror"
+                                   value="{{ old('name') }}" placeholder="Biarkan kosong untuk auto-generate"
+                                   pattern="[a-z0-9._]+" title="Username hanya boleh huruf kecil, angka, titik, dan underscore.">
                             @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            <div id="usernameHint" class="form-text text-muted" style="font-size:0.8rem;">
+                                <i class="bi bi-magic me-1 text-primary"></i>
+                                Kosongkan untuk auto-generate. Format staff: <code id="usernamePreview">namapertama.staff</code>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Email <span class="text-danger">*</span></label>
@@ -40,14 +55,6 @@
                         <div class="col-md-6">
                             <label class="form-label">Telepon</label>
                             <input type="text" name="telepon" class="form-control" value="{{ old('telepon') }}" placeholder="08xxx">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Role <span class="text-danger">*</span></label>
-                            <select name="role" class="form-select @error('role') is-invalid @enderror" required>
-                                <option value="staff" {{ old('role')=='staff'?'selected':'' }}>Staff</option>
-                                <option value="admin" {{ old('role')=='admin'?'selected':'' }}>Administrator</option>
-                            </select>
-                            @error('role')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Password <span class="text-danger">*</span></label>
@@ -68,4 +75,48 @@
         </form>
     </div>
 </div>
+
+@push('scripts')
+<script>
+const namaInput     = document.getElementById('nama_lengkap');
+const roleSelect    = document.getElementById('role');
+const usernameInput = document.getElementById('name');
+const preview       = document.getElementById('usernamePreview');
+
+function generateUsernamePreview() {
+    const nama = namaInput.value.trim();
+    const role = roleSelect.value;
+    if (!nama) {
+        preview.textContent = 'namapertama.' + role;
+        return;
+    }
+    // Ambil kata pertama, bersihkan, lowercase
+    const namaDepan = nama.split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+    const generated = namaDepan + '.' + role;
+    preview.textContent = generated || 'namapertama.' + role;
+
+    // Auto-fill username hanya jika user belum mengetik manual
+    if (!usernameInput.dataset.manuallyEdited) {
+        usernameInput.value = generated;
+    }
+}
+
+// Auto-generate preview saat nama atau role berubah
+namaInput.addEventListener('input', generateUsernamePreview);
+roleSelect.addEventListener('change', generateUsernamePreview);
+
+// Tandai jika user mengedit username secara manual
+usernameInput.addEventListener('input', function() {
+    this.dataset.manuallyEdited = 'true';
+});
+
+// Reset flag jika user hapus isi username
+usernameInput.addEventListener('change', function() {
+    if (!this.value) delete this.dataset.manuallyEdited;
+});
+
+// Init on load
+generateUsernamePreview();
+</script>
+@endpush
 @endsection

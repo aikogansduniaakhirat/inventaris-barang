@@ -54,10 +54,18 @@
         <a href="{{ route('peminjaman.index') }}" class="nav-item {{ request()->routeIs('peminjaman.*') ? 'active' : '' }}">
             <i class="bi bi-arrow-left-right"></i>
             <span>Peminjaman</span>
-            @php $tlb = \App\Models\Peminjaman::where('status','terlambat')->count() @endphp
-            @if($tlb > 0)
-                <span class="badge bg-danger ms-auto rounded-pill">{{ $tlb }}</span>
-            @endif
+            @php
+                $tlb = \App\Models\Peminjaman::where('status','terlambat')->count();
+                $mtg = \App\Models\Peminjaman::where('status','menunggu')->count();
+            @endphp
+            <span class="ms-auto d-flex gap-1">
+                @if($mtg > 0 && auth()->user()->isAdmin())
+                    <span class="badge bg-warning text-dark rounded-pill">{{ $mtg }}</span>
+                @endif
+                @if($tlb > 0)
+                    <span class="badge bg-danger rounded-pill">{{ $tlb }}</span>
+                @endif
+            </span>
         </a>
 
         @if(auth()->user()->isAdmin())

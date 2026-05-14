@@ -26,6 +26,7 @@ class Peminjaman extends Model
         'kondisi_kembali',
         'keterangan',
         'keterangan_kembali',
+        'alasan_tolak',
     ];
 
     protected $casts = [
@@ -50,10 +51,12 @@ class Peminjaman extends Model
     public function getStatusBadgeAttribute(): string
     {
         return match ($this->status) {
+            'menunggu'    => 'warning',
             'dipinjam'    => 'primary',
             'dikembalikan' => 'success',
             'terlambat'   => 'danger',
-            'rusak'       => 'warning',
+            'ditolak'     => 'danger',
+            'rusak'       => 'dark',
             default       => 'secondary',
         };
     }
@@ -61,9 +64,11 @@ class Peminjaman extends Model
     public function getStatusLabelAttribute(): string
     {
         return match ($this->status) {
+            'menunggu'    => 'Menunggu ACC',
             'dipinjam'    => 'Dipinjam',
             'dikembalikan' => 'Dikembalikan',
             'terlambat'   => 'Terlambat',
+            'ditolak'     => 'Ditolak',
             'rusak'       => 'Rusak',
             default       => '-',
         };
@@ -87,6 +92,11 @@ class Peminjaman extends Model
         return $query->whereIn('status', ['dipinjam', 'terlambat']);
     }
 
+    public function scopeMenunggu($query)
+    {
+        return $query->where('status', 'menunggu');
+    }
+
     public function scopeTerlambat($query)
     {
         return $query->where('status', 'terlambat')
@@ -94,5 +104,10 @@ class Peminjaman extends Model
                          $q->where('status', 'dipinjam')
                            ->where('tanggal_kembali_rencana', '<', now()->toDateString());
                      });
+    }
+
+    public function getIsMenungguAttribute(): bool
+    {
+        return $this->status === 'menunggu';
     }
 }
