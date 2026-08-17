@@ -1,59 +1,330 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://img.icons8.com/3d-fluency/94/box.png" width="80" alt="Inventaris Logo">
 </p>
 
-## About Laravel
+<h1 align="center">📦 Inventaris Barang</h1>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<p align="center">
+  Sistem Informasi Manajemen Inventaris Barang berbasis Web — dibangun dengan <strong>Laravel 12</strong>
+</p>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel 12">
+  <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.2+">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+  <img src="https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
+</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 📋 Deskripsi
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Aplikasi web untuk mengelola data inventaris barang secara digital. Mendukung pengelolaan barang, kategori, peminjaman dengan sistem approval, manajemen pengguna dengan role-based access, serta pembuatan laporan dalam format PDF & Excel.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Cocok digunakan oleh instansi, sekolah, kampus, atau organisasi yang membutuhkan pencatatan aset/inventaris secara terstruktur.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## ✨ Fitur Utama
 
-### Premium Partners
+| Modul | Fitur |
+|---|---|
+| **🔐 Autentikasi** | Login, Register, Lupa Password (Laravel Breeze) |
+| **📊 Dashboard** | Ringkasan statistik barang, peminjaman, dan aktivitas terkini |
+| **📦 Manajemen Barang** | CRUD barang, pencarian, upload foto, tracking jumlah & kondisi (baik/rusak) |
+| **🏷️ Kategori** | CRUD kategori untuk pengelompokan barang |
+| **🔄 Peminjaman** | Ajukan peminjaman, sistem approval (disetujui/ditolak), pengembalian barang |
+| **👥 Manajemen User** | CRUD user, role-based access (Admin & User biasa) |
+| **📑 Laporan** | Cetak/Export laporan barang & peminjaman ke **PDF** dan **Excel** |
+| **📝 Activity Log** | Pencatatan aktivitas pengguna menggunakan Spatie Activity Log |
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🛠️ Tech Stack
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Backend:** Laravel 12 · PHP 8.2+
+- **Frontend:** Blade · Tailwind CSS 4 · Alpine.js · Vite 7
+- **Database:** MySQL / SQLite
+- **Package Utama:**
+  - `laravel/breeze` — Autentikasi
+  - `yajra/laravel-datatables` — Tabel data interaktif (server-side)
+  - `barryvdh/laravel-dompdf` — Export PDF
+  - `maatwebsite/excel` — Export Excel
+  - `spatie/laravel-activitylog` — Pencatatan log aktivitas
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🚀 Instalasi Lokal (XAMPP / Development)
 
-## Security Vulnerabilities
+### Prasyarat
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- PHP >= 8.2 (dengan ekstensi `gd`, `pdo_mysql`, `mbstring`, `zip`)
+- Composer
+- Node.js >= 18 & npm
+- MySQL / MariaDB (atau SQLite untuk penggunaan sederhana)
 
-## License
+### Langkah-langkah
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+# 1. Clone repository
+git clone https://github.com/aikoons/inventaris-barang.git
+cd inventaris-barang
+
+# 2. Install dependensi PHP
+composer install
+
+# 3. Install dependensi Node.js
+npm install
+
+# 4. Salin file environment
+cp .env.example .env
+
+# 5. Generate application key
+php artisan key:generate
+
+# 6. Konfigurasi database di file .env
+#    Buka file .env lalu sesuaikan:
+#    DB_CONNECTION=mysql
+#    DB_HOST=127.0.0.1
+#    DB_PORT=3306
+#    DB_DATABASE=inventaris_barang
+#    DB_USERNAME=root
+#    DB_PASSWORD=
+
+# 7. Jalankan migrasi database
+php artisan migrate
+
+# 8. (Opsional) Jalankan seeder untuk data awal
+php artisan db:seed
+
+# 9. Buat symlink storage
+php artisan storage:link
+
+# 10. Jalankan aplikasi
+composer dev
+```
+
+> **Catatan:** Perintah `composer dev` akan menjalankan Laravel server, Vite dev server, Queue listener, dan Pail (log viewer) secara bersamaan menggunakan `concurrently`.
+
+Atau jalankan manual secara terpisah:
+```bash
+# Terminal 1 — Server Laravel
+php artisan serve
+
+# Terminal 2 — Vite (kompilasi aset)
+npm run dev
+```
+
+Akses aplikasi di: **http://localhost:8000**
+
+---
+
+## ☁️ Panduan Deploy
+
+### Opsi 1: Railway (Docker) — Rekomendasi ⭐
+
+[Railway](https://railway.app) mendukung deploy otomatis via Dockerfile yang sudah disediakan di project ini.
+
+#### Langkah-langkah:
+
+1. **Buat Akun Railway** — Daftar di [railway.app](https://railway.app) (bisa login via GitHub).
+
+2. **Buat Project Baru**
+   - Klik **"New Project"** → Pilih **"Deploy from GitHub Repo"**.
+   - Hubungkan akun GitHub Anda dan pilih repo `inventaris-barang`.
+
+3. **Tambahkan Database MySQL**
+   - Di dalam project Railway, klik **"New"** → **"Database"** → **"MySQL"**.
+   - Railway akan otomatis membuat database dan menyediakan environment variables.
+
+4. **Set Environment Variables**
+   Di bagian **Variables** pada service aplikasi, tambahkan:
+   ```
+   APP_NAME=Inventaris Barang
+   APP_ENV=production
+   APP_DEBUG=false
+   APP_KEY=        ← jalankan `php artisan key:generate --show` di lokal, lalu salin hasilnya
+   APP_URL=        ← URL dari Railway (akan muncul setelah deploy pertama)
+
+   DB_CONNECTION=mysql
+   DB_HOST=        ← dari variabel MySQL Railway
+   DB_PORT=3306
+   DB_DATABASE=    ← dari variabel MySQL Railway
+   DB_USERNAME=    ← dari variabel MySQL Railway
+   DB_PASSWORD=    ← dari variabel MySQL Railway
+   ```
+
+   > **Tips:** Railway menyediakan variable reference seperti `${{MySQL.MYSQL_HOST}}`. Anda bisa menggunakannya untuk mengisi `DB_HOST`, `DB_DATABASE`, dll secara otomatis.
+
+5. **Deploy**
+   - Railway akan otomatis build menggunakan `Dockerfile` dan deploy.
+   - Migrasi database dijalankan otomatis oleh `docker-entrypoint.sh`.
+
+6. **Generate Domain**
+   - Klik **Settings** → **Networking** → **Generate Domain** untuk mendapatkan URL publik.
+
+---
+
+### Opsi 2: Heroku
+
+> ⚠️ **Perhatian:** Heroku sudah tidak menyediakan paket gratis sejak 28 November 2022. Diperlukan kartu kredit/debit yang terhubung ke akun Heroku.
+
+#### Langkah-langkah:
+
+1. **Install Heroku CLI** & login:
+   ```bash
+   heroku login
+   ```
+
+2. **Buat file `Procfile`** di root project (jika belum ada):
+   ```
+   web: vendor/bin/heroku-php-apache2 public/
+   ```
+
+3. **Buat Aplikasi & Set Buildpacks:**
+   ```bash
+   heroku create nama-app-kamu
+   heroku buildpacks:add heroku/nodejs
+   heroku buildpacks:add heroku/php
+   ```
+
+4. **Tambahkan Database MySQL (JawsDB):**
+   ```bash
+   heroku addons:create jawsdb:kitefin
+   heroku config:get JAWSDB_URL
+   ```
+   Parse URL yang diberikan (`mysql://user:pass@host:3306/dbname`) lalu set:
+   ```bash
+   heroku config:set DB_CONNECTION=mysql
+   heroku config:set DB_HOST=host-server.com
+   heroku config:set DB_PORT=3306
+   heroku config:set DB_DATABASE=namadatabasenya
+   heroku config:set DB_USERNAME=namauser
+   heroku config:set DB_PASSWORD=passwordnya
+   ```
+
+5. **Set Environment Laravel:**
+   ```bash
+   heroku config:set APP_KEY=masukkan_app_key_kamu
+   heroku config:set APP_ENV=production
+   heroku config:set APP_DEBUG=false
+   heroku config:set APP_URL=https://nama-app-kamu.herokuapp.com
+   ```
+
+6. **Deploy:**
+   ```bash
+   git push heroku main
+   ```
+
+7. **Migrasi Database:**
+   ```bash
+   heroku run php artisan migrate --force
+   heroku run php artisan db:seed --force    # opsional
+   ```
+
+8. **Buka Aplikasi:**
+   ```bash
+   heroku open
+   ```
+
+> **Troubleshooting:** Jalankan `heroku logs --tail` untuk melihat log error.
+
+---
+
+### Opsi 3: cPanel (Shared Hosting)
+
+Cocok untuk hosting murah seperti Anymhost, Niagahoster, Hostinger, dll.
+
+#### Langkah-langkah:
+
+1. **Build aset di lokal:**
+   ```bash
+   npm run build
+   ```
+
+2. **Kompres project** menjadi file `.zip` (tanpa folder `node_modules` dan `.git`).
+
+3. **Export database lokal** dari phpMyAdmin → file `.sql`.
+
+4. **Upload ke cPanel:**
+   - Buka **File Manager** di cPanel.
+   - Buat folder `inventaris_core` di root (`/home/username/`), sejajar dengan `public_html`.
+   - Upload dan extract file `.zip` ke dalam `inventaris_core`.
+
+5. **Pindahkan isi folder `public`:**
+   - Pindahkan semua isi `inventaris_core/public/` ke `public_html/`.
+
+6. **Edit `public_html/index.php`:**
+   Ubah path autoload dan bootstrap:
+   ```php
+   require __DIR__.'/../inventaris_core/vendor/autoload.php';
+   $app = require_once __DIR__.'/../inventaris_core/bootstrap/app.php';
+   ```
+
+7. **Buat database di cPanel:**
+   - Buka **MySQL® Databases** → Buat database, user, dan hubungkan keduanya.
+   - Buka **phpMyAdmin** → Import file `.sql` yang di-export tadi.
+
+8. **Edit file `.env` di `inventaris_core/`:**
+   ```env
+   APP_ENV=production
+   APP_DEBUG=false
+   APP_URL=https://namadomainkamu.com
+
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=usercpanel_inventaris
+   DB_USERNAME=usercpanel_user
+   DB_PASSWORD=password_database
+   ```
+
+9. **Buka domain Anda** di browser — aplikasi siap digunakan! 🎉
+
+---
+
+## 📂 Struktur Project
+
+```
+inventaris-barang/
+├── app/
+│   ├── Exports/            # Export logic (PDF & Excel)
+│   ├── Http/
+│   │   ├── Controllers/    # Controller (Barang, Kategori, Peminjaman, dll)
+│   │   ├── Middleware/      # Custom middleware
+│   │   └── Requests/        # Form request validation
+│   ├── Models/              # Eloquent models (Barang, Kategori, Peminjaman, User)
+│   └── View/                # View composers
+├── database/
+│   ├── migrations/          # Migrasi tabel database
+│   └── seeders/             # Data awal (seeder)
+├── resources/views/         # Blade templates
+│   ├── barang/              # Halaman CRUD barang
+│   ├── kategori/            # Halaman CRUD kategori
+│   ├── peminjaman/          # Halaman peminjaman & approval
+│   ├── laporan/             # Halaman cetak laporan
+│   ├── user/                # Halaman manajemen user
+│   ├── dashboard.blade.php  # Halaman dashboard
+│   └── layouts/             # Layout utama aplikasi
+├── routes/
+│   ├── web.php              # Route utama aplikasi
+│   └── auth.php             # Route autentikasi
+├── Dockerfile               # Docker config (untuk Railway/Docker deploy)
+├── docker-entrypoint.sh     # Script startup container
+├── railway.json             # Konfigurasi Railway
+├── composer.json            # Dependensi PHP
+└── package.json             # Dependensi Node.js
+```
+
+---
+
+## 📄 Lisensi
+
+Project ini dibuat untuk keperluan akademik (Tugas Akhir / Skripsi).
+
+---
+
+<p align="center">
+  Dibuat dengan ❤️ menggunakan <a href="https://laravel.com">Laravel</a>
+</p>
