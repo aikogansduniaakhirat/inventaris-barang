@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Peminjaman extends Model
 {
@@ -21,18 +22,14 @@ class Peminjaman extends Model
         'jumlah_pinjam',
         'tanggal_pinjam',
         'tanggal_kembali_rencana',
-        'tanggal_kembali_aktual',
         'status',
-        'kondisi_kembali',
         'keterangan',
-        'keterangan_kembali',
         'alasan_tolak',
     ];
 
     protected $casts = [
         'tanggal_pinjam'          => 'date',
         'tanggal_kembali_rencana' => 'date',
-        'tanggal_kembali_aktual'  => 'date',
         'jumlah_pinjam'           => 'integer',
     ];
 
@@ -45,6 +42,17 @@ class Peminjaman extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function pengembalians(): HasMany
+    {
+        return $this->hasMany(Pengembalian::class, 'peminjaman_id');
+    }
+
+    public function getSisaPinjamAttribute(): int
+    {
+        $sudahKembali = $this->pengembalians()->sum('jumlah_kembali');
+        return max(0, $this->jumlah_pinjam - (int) $sudahKembali);
     }
 
     // Accessors

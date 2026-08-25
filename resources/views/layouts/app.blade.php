@@ -68,6 +68,11 @@
             </span>
         </a>
 
+        <a href="{{ route('pengembalian.index') }}" class="nav-item {{ request()->routeIs('pengembalian.*') ? 'active' : '' }}">
+            <i class="bi bi-arrow-return-left"></i>
+            <span>Pengembalian</span>
+        </a>
+
         @if(auth()->user()->isAdmin())
         <a href="{{ route('kategori.index') }}" class="nav-item {{ request()->routeIs('kategori.*') ? 'active' : '' }}">
             <i class="bi bi-tags-fill"></i>

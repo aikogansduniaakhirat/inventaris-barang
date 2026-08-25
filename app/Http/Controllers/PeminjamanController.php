@@ -153,65 +153,15 @@ class PeminjamanController extends Controller
 
     public function formPengembalian(Peminjaman $peminjaman)
     {
-        if ($peminjaman->status === 'dikembalikan') {
-            return redirect()->route('peminjaman.show', $peminjaman)
-                             ->with('info', 'Barang ini sudah dikembalikan.');
-        }
-        if (!in_array($peminjaman->status, ['dipinjam', 'terlambat'])) {
-            return redirect()->route('peminjaman.show', $peminjaman)
-                             ->with('info', 'Peminjaman ini tidak dapat diproses pengembaliannya.');
-        }
-        $peminjaman->load(['barang', 'user']);
-        return view('peminjaman.pengembalian', compact('peminjaman'));
+        // DEPRECATED: pengembalian sekarang entitas terpisah
+        // Redirect ke form pengembalian baru dengan peminjaman_id
+        return redirect()->route('pengembalian.create', ['peminjaman_id' => $peminjaman->id]);
     }
 
     public function prosesPengembalian(Request $request, Peminjaman $peminjaman)
     {
-        $validated = $request->validate([
-            'kondisi_kembali'    => ['required', 'in:baik,rusak_ringan,rusak_berat'],
-            'keterangan_kembali' => ['nullable', 'string', 'max:500'],
-        ]);
-
-        if ($peminjaman->status === 'dikembalikan') {
-            return redirect()->route('peminjaman.index')->with('info', 'Sudah dikembalikan.');
-        }
-
-        DB::transaction(function () use ($validated, $peminjaman) {
-            $peminjaman->update([
-                'status'                 => 'dikembalikan',
-                'tanggal_kembali_aktual' => now()->toDateString(),
-                'kondisi_kembali'        => $validated['kondisi_kembali'],
-                'keterangan_kembali'     => $validated['keterangan_kembali'],
-            ]);
-
-            $barang  = $peminjaman->barang;
-            $jumlah  = $peminjaman->jumlah_pinjam;
-            $kondisi = $validated['kondisi_kembali'];
-
-            if ($kondisi === 'baik') {
-                $barang->increment('jumlah_tersedia', $jumlah);
-            } else {
-                if ($kondisi === 'rusak_ringan') {
-                    $barang->increment('jumlah_rusak_ringan', $jumlah);
-                } else {
-                    $barang->increment('jumlah_rusak_berat', $jumlah);
-                }
-
-                $barang->refresh();
-                $totalRusak = $barang->jumlah_rusak_ringan + $barang->jumlah_rusak_berat;
-                if ($totalRusak === 0) {
-                    $newKondisi = 'baik';
-                } elseif ($barang->jumlah_rusak_berat > 0) {
-                    $newKondisi = 'rusak_berat';
-                } else {
-                    $newKondisi = 'rusak_ringan';
-                }
-                $barang->update(['kondisi' => $newKondisi]);
-            }
-        });
-
-        return redirect()->route('peminjaman.show', $peminjaman)
-                         ->with('success', 'Pengembalian barang berhasil dicatat.');
+        // DEPRECATED: handled by PengembalianController@store
+        return redirect()->route('pengembalian.create', ['peminjaman_id' => $peminjaman->id]);
     }
 
     private function generateKodePeminjaman(): string
