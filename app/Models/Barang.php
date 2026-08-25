@@ -13,6 +13,9 @@ class Barang extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'barangs';
+    protected $primaryKey = 'id_barangs';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'kode_barang',
@@ -137,5 +140,11 @@ class Barang extends Model
               ->orWhere('merk', 'like', "%{$keyword}%")
               ->orWhere('lokasi', 'like', "%{$keyword}%");
         });
+    }
+
+    // Backward-compat: banyak view pakai ->id sebelum refactor PK
+    public function getIdAttribute(): mixed
+    {
+        return $this->id_barangs;
     }
 }

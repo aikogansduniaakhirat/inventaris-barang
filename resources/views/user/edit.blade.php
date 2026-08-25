@@ -42,11 +42,11 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Role <span class="text-danger">*</span></label>
-                            <select name="role" class="form-select" {{ $user->id === auth()->id() ? 'disabled' : '' }}>
+                            <select name="role" class="form-select" {{ $user->id_users === auth()->user()->id_users ? 'disabled' : '' }}>
                                 <option value="staff" {{ old('role',$user->role)=='staff'?'selected':'' }}>Staff</option>
                                 <option value="admin" {{ old('role',$user->role)=='admin'?'selected':'' }}>Administrator</option>
                             </select>
-                            @if($user->id === auth()->id())
+                            @if($user->id_users === auth()->user()->id_users)
                             <input type="hidden" name="role" value="{{ $user->role }}">
                             <small class="text-muted">Tidak dapat mengubah role sendiri</small>
                             @endif
@@ -56,7 +56,7 @@
                             <div class="form-check form-switch mt-2">
                                 <input class="form-check-input" type="checkbox" name="is_active" id="isActive"
                                        value="1" {{ old('is_active', $user->is_active) ? 'checked' : '' }}
-                                       {{ $user->id === auth()->id() ? 'disabled' : '' }}>
+                                       {{ $user->id_users === auth()->user()->id_users ? 'disabled' : '' }}>
                                 <label class="form-check-label" for="isActive">Aktif</label>
                             </div>
                         </div>

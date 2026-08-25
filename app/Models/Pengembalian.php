@@ -11,6 +11,9 @@ class Pengembalian extends Model
     use HasFactory;
 
     protected $table = 'pengembalians';
+    protected $primaryKey = 'id_pengembalians';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'kode_pengembalian',
@@ -55,5 +58,11 @@ class Pengembalian extends Model
             'rusak_berat'   => 'Rusak Berat',
             default         => '-',
         };
+    }
+
+    // Backward-compat: banyak view pakai ->id sebelum refactor PK
+    public function getIdAttribute(): mixed
+    {
+        return $this->id_pengembalians;
     }
 }

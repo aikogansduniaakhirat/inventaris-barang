@@ -61,7 +61,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'nama_lengkap' => ['required', 'string', 'max:200'],
-            'email'        => ['required', 'email', Rule::unique('users','email')->ignore($user->id)],
+            'email'        => ['required', 'email', Rule::unique('users','email')->ignore($user->id_users)],
             'telepon'      => ['nullable', 'string', 'max:20'],
             'role'         => ['required', 'in:admin,staff'],
             'is_active'    => ['boolean'],
@@ -83,7 +83,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        if ($user->id === auth()->id()) {
+        if ($user->id_users === auth()->user()->id_users) {
             return redirect()->route('user.index')->with('error', 'Tidak dapat menghapus akun sendiri.');
         }
         if ($user->peminjamans()->whereIn('status', ['dipinjam', 'terlambat', 'menunggu'])->count() > 0) {

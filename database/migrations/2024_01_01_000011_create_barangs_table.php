@@ -9,10 +9,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('barangs', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_barangs');
             $table->string('kode_barang', 30)->unique();
             $table->string('nama_barang', 200);
-            $table->foreignId('kategori_id')->constrained('kategoris')->onDelete('restrict');
+            $table->foreignId('kategori_id')->constrained('kategoris', 'id_kategoris')->onDelete('restrict');
             $table->string('merk', 100)->nullable();
             $table->integer('jumlah')->default(0)->comment('Total unit keseluruhan');
             $table->integer('jumlah_tersedia')->default(0)->comment('Unit yang tersedia untuk dipinjam');

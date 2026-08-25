@@ -17,7 +17,7 @@ class PeminjamanController extends Controller
 
         // Staff hanya lihat peminjaman milik sendiri
         if ($user->isStaff()) {
-            $query->where('user_id', $user->id);
+            $query->where('user_id', $user->id_users);
         }
 
         if ($request->filled('status')) {
@@ -71,7 +71,7 @@ class PeminjamanController extends Controller
 
         DB::transaction(function () use ($validated, $barang, $user) {
             $validated['kode_peminjaman'] = $this->generateKodePeminjaman();
-            $validated['user_id']         = $user->id;
+            $validated['user_id']         = $user->id_users;
 
             if ($user->isAdmin()) {
                 // Admin → langsung dipinjam, kurangi stok
@@ -95,7 +95,7 @@ class PeminjamanController extends Controller
     public function show(Peminjaman $peminjaman)
     {
         // Staff hanya bisa lihat peminjaman miliknya sendiri
-        if (auth()->user()->isStaff() && $peminjaman->user_id !== auth()->id()) {
+        if (auth()->user()->isStaff() && $peminjaman->user_id !== auth()->user()->id_users) {
             abort(403, 'Akses ditolak.');
         }
         $peminjaman->load(['barang.kategori', 'user']);
@@ -155,13 +155,13 @@ class PeminjamanController extends Controller
     {
         // DEPRECATED: pengembalian sekarang entitas terpisah
         // Redirect ke form pengembalian baru dengan peminjaman_id
-        return redirect()->route('pengembalian.create', ['peminjaman_id' => $peminjaman->id]);
+        return redirect()->route('pengembalian.create', ['peminjaman_id' => $peminjaman->id_peminjamans]);
     }
 
     public function prosesPengembalian(Request $request, Peminjaman $peminjaman)
     {
         // DEPRECATED: handled by PengembalianController@store
-        return redirect()->route('pengembalian.create', ['peminjaman_id' => $peminjaman->id]);
+        return redirect()->route('pengembalian.create', ['peminjaman_id' => $peminjaman->id_peminjamans]);
     }
 
     private function generateKodePeminjaman(): string

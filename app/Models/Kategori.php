@@ -11,6 +11,9 @@ class Kategori extends Model
     use HasFactory;
 
     protected $table = 'kategoris';
+    protected $primaryKey = 'id_kategoris';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'nama_kategori',
@@ -39,5 +42,11 @@ class Kategori extends Model
     public function getTotalStokAttribute(): int
     {
         return $this->barangs()->sum('jumlah');
+    }
+
+    // Backward-compat: banyak view pakai ->id sebelum refactor PK
+    public function getIdAttribute(): mixed
+    {
+        return $this->id_kategoris;
     }
 }

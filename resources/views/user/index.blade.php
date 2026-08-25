@@ -80,7 +80,7 @@
                                     onclick="resetPassword({{ $u->id }}, '{{ addslashes($u->display_name) }}')">
                                 <i class="bi bi-key"></i>
                             </button>
-                            @if($u->id !== auth()->id())
+                            @if($u->id_users !== auth()->user()->id_users)
                             <form action="{{ route('user.destroy', $u) }}" method="POST"
                                   onsubmit="return confirm('Hapus user {{ addslashes($u->display_name) }}?')">
                                 @csrf @method('DELETE')

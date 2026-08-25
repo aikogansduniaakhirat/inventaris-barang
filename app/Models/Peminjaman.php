@@ -12,6 +12,9 @@ class Peminjaman extends Model
     use HasFactory;
 
     protected $table = 'peminjamans';
+    protected $primaryKey = 'id_peminjamans';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'kode_peminjaman',
@@ -117,5 +120,11 @@ class Peminjaman extends Model
     public function getIsMenungguAttribute(): bool
     {
         return $this->status === 'menunggu';
+    }
+
+    // Backward-compat: banyak view pakai ->id sebelum refactor PK
+    public function getIdAttribute(): mixed
+    {
+        return $this->id_peminjamans;
     }
 }

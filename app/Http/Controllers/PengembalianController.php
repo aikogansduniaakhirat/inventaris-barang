@@ -86,7 +86,7 @@ class PengembalianController extends Controller
 
         DB::transaction(function () use ($validated, $peminjaman) {
             $validated['kode_pengembalian'] = $this->generateKode();
-            $validated['user_id']           = auth()->id();
+            $validated['user_id']           = auth()->user()->id_users;
             Pengembalian::create($validated);
 
             $barang  = $peminjaman->barang;

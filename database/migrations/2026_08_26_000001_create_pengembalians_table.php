@@ -21,13 +21,13 @@ return new class extends Migration
     {
         // Tabel pengembalians (entitas baru)
         Schema::create('pengembalians', function (Blueprint $table) {
-            $table->id();
+            $table->id('id_pengembalians');
             $table->string('kode_pengembalian', 30)->unique();
             $table->foreignId('peminjaman_id')
-                  ->constrained('peminjamans')
+                  ->constrained('peminjamans', 'id_peminjamans')
                   ->onDelete('restrict');
             $table->foreignId('user_id')
-                  ->constrained('users')
+                  ->constrained('users', 'id_users')
                   ->onDelete('restrict')
                   ->comment('Petugas/admin yang menerima kembali');
             $table->integer('jumlah_kembali')->default(1);

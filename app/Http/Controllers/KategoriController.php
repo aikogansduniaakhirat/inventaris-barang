@@ -35,8 +35,8 @@ class KategoriController extends Controller
     public function update(Request $request, Kategori $kategori)
     {
         $validated = $request->validate([
-            'nama_kategori' => ['required', 'string', 'max:100', Rule::unique('kategoris', 'nama_kategori')->ignore($kategori->id)],
-            'kode_kategori' => ['nullable', 'string', 'max:10', Rule::unique('kategoris', 'kode_kategori')->ignore($kategori->id)],
+            'nama_kategori' => ['required', 'string', 'max:100', Rule::unique('kategoris', 'nama_kategori')->ignore($kategori->id_kategoris)],
+            'kode_kategori' => ['nullable', 'string', 'max:10', Rule::unique('kategoris', 'kode_kategori')->ignore($kategori->id_kategoris)],
             'deskripsi'     => ['nullable', 'string', 'max:500'],
             'warna'         => ['required', 'string', 'max:20'],
             'is_active'     => ['boolean'],

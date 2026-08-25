@@ -14,6 +14,10 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $primaryKey = 'id_users';
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable = [
         'name',
         'nama_lengkap',
@@ -77,5 +81,11 @@ class User extends Authenticatable
     public function getDisplayNameAttribute(): string
     {
         return $this->nama_lengkap ?: $this->name;
+    }
+
+    // Backward-compat: banyak view pakai ->id sebelum refactor PK
+    public function getIdAttribute(): mixed
+    {
+        return $this->id_users;
     }
 }

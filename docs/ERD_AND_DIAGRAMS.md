@@ -18,7 +18,7 @@ erDiagram
     PEMINJAMANS ||--o{ PENGEMBALIANS : "dikembalikan"
 
     USERS {
-        int id PK
+        int id_users PK
         string name
         string email UK
         string nama_lengkap
@@ -29,7 +29,7 @@ erDiagram
     }
 
     KATEGORIS {
-        int id PK
+        int id_kategoris PK
         string kode_kategori UK
         string nama_kategori
         text deskripsi
@@ -38,10 +38,10 @@ erDiagram
     }
 
     BARANGS {
-        int id PK
+        int id_barangs PK
         string kode_barang UK
         string nama_barang
-        int kategori_id FK
+        int kategori_id FK → KATEGORIS(id_kategoris)
         string merk
         int jumlah
         int jumlah_tersedia
@@ -56,10 +56,10 @@ erDiagram
     }
 
     PEMINJAMANS {
-        int id PK
+        int id_peminjamans PK
         string kode_peminjaman UK
-        int barang_id FK
-        int user_id FK
+        int barang_id FK → BARANGS(id_barangs)
+        int user_id FK → USERS(id_users)
         string nama_peminjam
         string instansi_peminjam
         int jumlah_pinjam
@@ -71,10 +71,10 @@ erDiagram
     }
 
     PENGEMBALIANS {
-        int id PK
+        int id_pengembalians PK
         string kode_pengembalian UK
-        int peminjaman_id FK
-        int user_id FK
+        int peminjaman_id FK → PEMINJAMANS(id_peminjamans)
+        int user_id FK → USERS(id_users)
         int jumlah_kembali
         date tanggal_kembali
         enum kondisi_kembali "baik|rusak_ringan|rusak_berat"
@@ -247,7 +247,7 @@ sequenceDiagram
 ```mermaid
 classDiagram
     class User {
-        +int id
+        +int id_users
         +string name
         +string email
         +enum role
@@ -257,14 +257,14 @@ classDiagram
     }
 
     class Kategori {
-        +int id
+        +int id_kategoris
         +string kode_kategori
         +string nama_kategori
         +string warna
     }
 
     class Barang {
-        +int id
+        +int id_barangs
         +string kode_barang
         +string nama_barang
         +int jumlah
@@ -275,7 +275,7 @@ classDiagram
     }
 
     class Peminjaman {
-        +int id
+        +int id_peminjamans
         +string kode_peminjaman
         +int jumlah_pinjam
         +date tanggal_pinjam
@@ -285,7 +285,7 @@ classDiagram
     }
 
     class Pengembalian {
-        +int id
+        +int id_pengembalians
         +string kode_pengembalian
         +int jumlah_kembali
         +date tanggal_kembali
