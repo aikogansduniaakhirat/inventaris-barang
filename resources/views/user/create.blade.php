@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Telepon</label>
-                            <input type="text" name="telepon" class="form-control" value="{{ old('telepon') }}" placeholder="08xxx">
+                            <input type="tel" name="telepon" inputmode="numeric" pattern="[0-9+\-\s()]{6,20}" maxlength="20" class="form-control" value="{{ old('telepon') }}" placeholder="08xxxxxxxxxx" title="Hanya angka, spasi, +, -, () yang diperbolehkan">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Password <span class="text-danger">*</span></label>

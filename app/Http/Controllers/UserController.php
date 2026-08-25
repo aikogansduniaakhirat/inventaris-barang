@@ -19,7 +19,10 @@ class UserController extends Controller
         $query = User::query();
         if ($request->filled('search')) {
             $kw = $request->search;
-            $query->where(fn($q) => $q->where('name','like',"%{$kw}%")->orWhere('email','like',"%{$kw}%")->orWhere('nama_lengkap','like',"%{$kw}%"));
+            $query->where(fn($q) => $q->where('name','like',"%{$kw}%")
+                                      ->orWhere('email','like',"%{$kw}%")
+                                      ->orWhere('nama_lengkap','like',"%{$kw}%")
+                                      ->orWhere('telepon','like',"%{$kw}%"));
         }
         if ($request->filled('role')) $query->where('role', $request->role);
 
@@ -30,7 +33,8 @@ class UserController extends Controller
         if (in_array($sort, self::SORTABLE)) {
             $query->orderBy($sort, $direction);
         } else {
-            $query->orderBy('nama_lengkap', 'asc');
+            // Fallback: user baru tampil paling atas
+            $query->orderBy('created_at', 'desc');
         }
 
         $users = $query->paginate(15)->withQueryString();
@@ -48,11 +52,12 @@ class UserController extends Controller
             'name'         => ['nullable', 'string', 'max:50', 'unique:users,name', 'regex:/^[a-z0-9._]+$/'],
             'nama_lengkap' => ['required', 'string', 'max:200'],
             'email'        => ['required', 'email', 'unique:users,email'],
-            'telepon'      => ['nullable', 'string', 'max:20'],
+            'telepon'      => ['nullable', 'string', 'max:20', 'regex:/^[0-9+\-\s()]+$/'],
             'role'         => ['required', 'in:admin,staff'],
             'password'     => ['required', Password::defaults(), 'confirmed'],
         ], [
-            'name.regex' => 'Username hanya boleh huruf kecil, angka, titik, dan underscore.',
+            'name.regex'    => 'Username hanya boleh huruf kecil, angka, titik, dan underscore.',
+            'telepon.regex' => 'Telepon hanya boleh angka, spasi, +, -, dan (). Minimal 6 digit.',
         ]);
 
         // Auto-generate username jika kosong
@@ -76,9 +81,11 @@ class UserController extends Controller
         $validated = $request->validate([
             'nama_lengkap' => ['required', 'string', 'max:200'],
             'email'        => ['required', 'email', Rule::unique('users','email')->ignore($user->id_users)],
-            'telepon'      => ['nullable', 'string', 'max:20'],
+            'telepon'      => ['nullable', 'string', 'max:20', 'regex:/^[0-9+\-\s()]+$/'],
             'role'         => ['required', 'in:admin,staff'],
             'is_active'    => ['boolean'],
+        ], [
+            'telepon.regex' => 'Telepon hanya boleh angka, spasi, +, -, dan ().',
         ]);
 
         $user->update($validated);

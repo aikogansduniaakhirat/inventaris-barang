@@ -76,7 +76,7 @@
         <table class="table table-hover align-middle mb-0">
             <thead>
                 <tr>
-                    <th width="44"><x-sort field="id_barangs" :sort="$sort" :direction="$direction">ID</x-sort></th>
+                    <th width="44"><x-sort field="id_barangs" :sort="$sort" :direction="$direction">No</x-sort></th>
                     <th width="44">Foto</th>
                     <th><x-sort field="nama_barang"  :sort="$sort" :direction="$direction">Kode / Nama Barang</x-sort></th>
                     <th><x-sort field="nama_kategori" :sort="$sort" :direction="$direction">Kategori</x-sort></th>

@@ -52,8 +52,8 @@ class BarangController extends Controller
                 $query->orderBy($sort, $direction);
             }
         } else {
-            // Fallback ke default kalau sort param di-whitelist
-            $query->orderBy('nama_barang', 'asc');
+            // Fallback: transaksi baru tampil paling atas
+            $query->orderBy('created_at', 'desc');
         }
 
         $barangs   = $query->paginate(15)->withQueryString();

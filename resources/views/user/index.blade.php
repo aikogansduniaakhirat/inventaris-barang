@@ -41,7 +41,7 @@
         <table class="table table-hover align-middle mb-0">
             <thead>
                 <tr>
-                    <th width="44"><x-sort field="id_users" :sort="$sort" :direction="$direction">ID</x-sort></th>
+                    <th width="44"><x-sort field="id_users" :sort="$sort" :direction="$direction">No</x-sort></th>
                     <th><x-sort field="nama_lengkap" :sort="$sort" :direction="$direction">Pengguna</x-sort></th>
                     <th><x-sort field="name"         :sort="$sort" :direction="$direction">Username</x-sort></th>
                     <th><x-sort field="email"        :sort="$sort" :direction="$direction">Email</x-sort></th>
