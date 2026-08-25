@@ -100,7 +100,7 @@
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th width="40">No</th>
+                    <th width="40">ID</th>
                     <th><x-sort field="kode_peminjaman" :sort="$sort" :direction="$direction">Kode</x-sort></th>
                     <th><x-sort field="nama_barang"     :sort="$sort" :direction="$direction">Barang</x-sort></th>
                     <th><x-sort field="nama_peminjam"   :sort="$sort" :direction="$direction">Peminjam</x-sort></th>
@@ -114,9 +114,9 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($peminjamans as $i => $p)
+                @forelse($peminjamans as $p)
                 <tr>
-                    <td class="text-muted">{{ $i+1 }}</td>
+                    <td class="text-muted text-center font-monospace">{{ $p->id_peminjamans }}</td>
                     <td><code><a href="{{ route('peminjaman.show', $p) }}" class="text-decoration-none">{{ $p->kode_peminjaman }}</a></code></td>
                     <td>{{ Str::limit($p->barang->nama_barang, 25) }}</td>
                     <td>

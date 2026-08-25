@@ -105,7 +105,7 @@
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th width="40">No</th>
+                    <th width="40">ID</th>
                     <th><x-sort field="kode_barang"   :sort="$sort" :direction="$direction">Kode</x-sort></th>
                     <th><x-sort field="nama_barang"   :sort="$sort" :direction="$direction">Nama Barang</x-sort></th>
                     <th><x-sort field="nama_kategori" :sort="$sort" :direction="$direction">Kategori</x-sort></th>
@@ -117,9 +117,9 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($barangs as $i => $b)
+                @forelse($barangs as $b)
                 <tr>
-                    <td class="text-muted">{{ $i+1 }}</td>
+                    <td class="text-muted text-center font-monospace">{{ $b->id_barangs }}</td>
                     <td><code>{{ $b->kode_barang }}</code></td>
                     <td><a href="{{ route('barang.show', $b) }}" class="fw-semibold text-decoration-none">{{ $b->nama_barang }}</a></td>
                     <td>{{ $b->kategori->nama_kategori }}</td>

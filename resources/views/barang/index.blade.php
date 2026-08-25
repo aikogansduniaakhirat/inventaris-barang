@@ -76,7 +76,7 @@
         <table class="table table-hover align-middle mb-0">
             <thead>
                 <tr>
-                    <th width="44">#</th>
+                    <th width="44">ID</th>
                     <th width="44">Foto</th>
                     <th><x-sort field="nama_barang"  :sort="$sort" :direction="$direction">Kode / Nama Barang</x-sort></th>
                     <th><x-sort field="nama_kategori" :sort="$sort" :direction="$direction">Kategori</x-sort></th>
@@ -89,9 +89,8 @@
             </thead>
             <tbody>
                 @forelse($barangs as $barang)
-                @php $rowNum = ($barangs->currentPage() - 1) * $barangs->perPage() + $loop->iteration; @endphp
                 <tr>
-                    <td class="text-muted text-center font-monospace">{{ $rowNum }}</td>
+                    <td class="text-muted text-center font-monospace">{{ $barang->id_barangs }}</td>
                     <td>
                         @if($barang->foto)
                             <img src="{{ asset('storage/'.$barang->foto) }}" alt="{{ $barang->nama_barang }}" class="item-photo">
