@@ -48,8 +48,8 @@ return new class extends Migration
 
             foreach ($peminjamans as $p) {
                 DB::table('pengembalians')->insert([
-                    'kode_pengembalian' => 'KMB-' . date('Y', strtotime($p->tanggal_kembali_aktual)) . '-' . str_pad($p->id, 4, '0', STR_PAD_LEFT),
-                    'peminjaman_id'     => $p->id,
+                    'kode_pengembalian' => 'KMB-' . date('Y', strtotime($p->tanggal_kembali_aktual)) . '-' . str_pad($p->id_peminjamans, 4, '0', STR_PAD_LEFT),
+                    'peminjaman_id'     => $p->id_peminjamans,
                     'user_id'           => $p->user_id,
                     'jumlah_kembali'    => $p->jumlah_pinjam,
                     'tanggal_kembali'   => $p->tanggal_kembali_aktual,

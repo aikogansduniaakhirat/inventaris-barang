@@ -10,12 +10,12 @@ class BarangSeeder extends Seeder
 {
     public function run(): void
     {
-        $elk = Kategori::where('kode_kategori', 'ELK')->first()->id;
-        $frn = Kategori::where('kode_kategori', 'FRN')->first()->id;
-        $lab = Kategori::where('kode_kategori', 'LAB')->first()->id;
-        $olr = Kategori::where('kode_kategori', 'OLR')->first()->id;
-        $atk = Kategori::where('kode_kategori', 'ATK')->first()->id;
-        $lnl = Kategori::where('kode_kategori', 'LNL')->first()->id;
+        $elk = Kategori::where('kode_kategori', 'ELK')->first()->id_kategoris;
+        $frn = Kategori::where('kode_kategori', 'FRN')->first()->id_kategoris;
+        $lab = Kategori::where('kode_kategori', 'LAB')->first()->id_kategoris;
+        $olr = Kategori::where('kode_kategori', 'OLR')->first()->id_kategoris;
+        $atk = Kategori::where('kode_kategori', 'ATK')->first()->id_kategoris;
+        $lnl = Kategori::where('kode_kategori', 'LNL')->first()->id_kategoris;
 
         $barangs = [
             // Elektronik
