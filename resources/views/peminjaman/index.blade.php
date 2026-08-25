@@ -173,7 +173,7 @@
 
                             {{-- Tombol Pengembalian --}}
                             @if(in_array($p->status, ['dipinjam','terlambat']))
-                            <a href="{{ route('peminjaman.form-pengembalian', $p) }}" class="btn btn-sm btn-outline-success" title="Proses Pengembalian">
+                            <a href="{{ route('pengembalian.create', ['peminjaman_id' => $p->id_peminjamans]) }}" class="btn btn-sm btn-outline-success" title="Proses Pengembalian">
                                 <i class="bi bi-arrow-return-left"></i>
                             </a>
                             @endif

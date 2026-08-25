@@ -13,7 +13,7 @@
             <i class="bi bi-arrow-left me-1"></i> Kembali
         </a>
         @if(in_array($peminjaman->status, ['dipinjam','terlambat']))
-        <a href="{{ route('peminjaman.form-pengembalian', $peminjaman) }}" class="btn btn-success">
+        <a href="{{ route('pengembalian.create', ['peminjaman_id' => $peminjaman->id_peminjamans]) }}" class="btn btn-success">
             <i class="bi bi-arrow-return-left me-1"></i> Proses Pengembalian
         </a>
         @endif
