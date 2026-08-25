@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Telepon</label>
-                            <input type="tel" name="telepon" inputmode="numeric" pattern="[0-9+\-\s()]{6,20}" maxlength="20" class="form-control" value="{{ old('telepon') }}" placeholder="08xxxxxxxxxx" title="Hanya angka, spasi, +, -, () yang diperbolehkan">
+                            <input type="tel" name="telepon" inputmode="numeric" pattern="[0-9+\-\s()]{6,20}" maxlength="20" class="form-control telepon-input @error('telepon') is-invalid @enderror" value="{{ old('telepon') }}" placeholder="08xxxxxxxxxx" title="Hanya angka, spasi, +, -, () yang diperbolehkan">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Password <span class="text-danger">*</span></label>
@@ -118,5 +118,8 @@ usernameInput.addEventListener('change', function() {
 // Init on load
 generateUsernamePreview();
 </script>
+
+{{-- Strip karakter non-angka dari input telepon real-time --}}
+@include('partials.telepon-handler')
 @endpush
 @endsection
