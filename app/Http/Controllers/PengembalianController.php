@@ -109,7 +109,7 @@ class PengembalianController extends Controller
                          ->with('error', "Jumlah kembali ({$validated['jumlah_kembali']}) melebihi sisa pinjam ({$sisaPinjam}).");
         }
 
-        DB::transaction(function () use ($validated, $peminjaman) {
+        DB::transaction(function () use ($validated, $peminjaman, $sisaPinjam) {
             $validated['kode_pengembalian'] = $this->generateKode();
             $validated['user_id']           = auth()->user()->id_users;
             Pengembalian::create($validated);
