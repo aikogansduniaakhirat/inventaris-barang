@@ -9,6 +9,19 @@ use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
+    /** Sortable untuk stok barang (laporan). */
+    private const SORTABLE_STOK = [
+        'kode_barang', 'nama_barang', 'nama_kategori',
+        'lokasi', 'jumlah', 'jumlah_tersedia', 'kondisi', 'nilai',
+    ];
+
+    /** Sortable untuk riwayat peminjaman (laporan). */
+    private const SORTABLE_RIWAYAT = [
+        'kode_peminjaman', 'nama_peminjam', 'jumlah_pinjam',
+        'tanggal_pinjam', 'tanggal_kembali_rencana', 'status',
+        'nama_barang',
+    ];
+
     public function stokBarang(Request $request)
     {
         $query = Barang::with('kategori');
@@ -23,11 +36,27 @@ class LaporanController extends Controller
             $query->where('lokasi', 'like', '%' . $request->lokasi . '%');
         }
 
-        $barangs   = $query->orderBy('nama_barang')->get();
+        $sort      = $request->get('sort', 'nama_barang');
+        $direction = $request->get('direction', 'asc');
+        $direction = in_array($direction, ['asc', 'desc']) ? $direction : 'asc';
+
+        if (in_array($sort, self::SORTABLE_STOK)) {
+            if ($sort === 'nama_kategori') {
+                $query->leftJoin('kategoris', 'barangs.kategori_id', '=', 'kategoris.id_kategoris')
+                      ->select('barangs.*')
+                      ->orderBy('kategoris.nama_kategori', $direction);
+            } else {
+                $query->orderBy($sort, $direction);
+            }
+        } else {
+            $query->orderBy('nama_barang', 'asc');
+        }
+
+        $barangs   = $query->get();
         $kategoris = Kategori::orderBy('nama_kategori')->get();
         $lokasis   = Barang::distinct()->pluck('lokasi')->filter()->sort()->values();
 
-        return view('laporan.stok_barang', compact('barangs', 'kategoris', 'lokasis'));
+        return view('laporan.stok_barang', compact('barangs', 'kategoris', 'lokasis', 'sort', 'direction'));
     }
 
     public function riwayatPeminjaman(Request $request)
@@ -44,9 +73,25 @@ class LaporanController extends Controller
             $query->where('tanggal_pinjam', '<=', $request->tanggal_sampai);
         }
 
-        $peminjamans = $query->latest()->get();
+        $sort      = $request->get('sort', 'tanggal_pinjam');
+        $direction = $request->get('direction', 'desc');
+        $direction = in_array($direction, ['asc', 'desc']) ? $direction : 'desc';
 
-        return view('laporan.riwayat_peminjaman', compact('peminjamans'));
+        if (in_array($sort, self::SORTABLE_RIWAYAT)) {
+            if ($sort === 'nama_barang') {
+                $query->leftJoin('barangs', 'peminjamans.barang_id', '=', 'barangs.id_barangs')
+                      ->select('peminjamans.*')
+                      ->orderBy('barangs.nama_barang', $direction);
+            } else {
+                $query->orderBy($sort, $direction);
+            }
+        } else {
+            $query->orderBy('tanggal_pinjam', 'desc');
+        }
+
+        $peminjamans = $query->get();
+
+        return view('laporan.riwayat_peminjaman', compact('peminjamans', 'sort', 'direction'));
     }
 
     public function exportPdfStok(Request $request)

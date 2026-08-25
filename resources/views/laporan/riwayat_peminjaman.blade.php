@@ -29,6 +29,8 @@
                     <option value="dipinjam" {{ request('status')=='dipinjam'?'selected':'' }}>Dipinjam</option>
                     <option value="terlambat" {{ request('status')=='terlambat'?'selected':'' }}>Terlambat</option>
                     <option value="dikembalikan" {{ request('status')=='dikembalikan'?'selected':'' }}>Dikembalikan</option>
+                    <option value="menunggu" {{ request('status')=='menunggu'?'selected':'' }}>Menunggu ACC</option>
+                    <option value="ditolak" {{ request('status')=='ditolak'?'selected':'' }}>Ditolak</option>
                 </select>
             </div>
             <div class="col-md-3">
@@ -43,25 +45,71 @@
                 <button type="submit" class="btn btn-primary flex-fill"><i class="bi bi-funnel me-1"></i>Filter</button>
                 <a href="{{ route('laporan.riwayat-peminjaman') }}" class="btn btn-outline-secondary"><i class="bi bi-x-lg"></i></a>
             </div>
+            @if(request('sort'))<input type="hidden" name="sort"      value="{{ request('sort') }}">@endif
+            @if(request('direction'))<input type="hidden" name="direction" value="{{ request('direction') }}">@endif
         </form>
     </div>
 </div>
 
+<!-- Summary cards -->
+<div class="row g-3 mb-3">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-card-icon emerald"><i class="bi bi-check-circle"></i></div>
+            <div class="stat-card-info">
+                <div class="stat-card-label">Dikembalikan</div>
+                <div class="stat-card-value">{{ $peminjamans->where('status', 'dikembalikan')->count() }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-card-icon sky"><i class="bi bi-arrow-left-right"></i></div>
+            <div class="stat-card-info">
+                <div class="stat-card-label">Dipinjam</div>
+                <div class="stat-card-value">{{ $peminjamans->where('status', 'dipinjam')->count() }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-card-icon red"><i class="bi bi-exclamation-triangle"></i></div>
+            <div class="stat-card-info">
+                <div class="stat-card-label">Terlambat</div>
+                <div class="stat-card-value">{{ $peminjamans->where('status', 'terlambat')->count() }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-card-icon amber"><i class="bi bi-hourglass-split"></i></div>
+            <div class="stat-card-info">
+                <div class="stat-card-label">Menunggu ACC</div>
+                <div class="stat-card-value">{{ $peminjamans->where('status', 'menunggu')->count() }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card">
-    <div class="card-header">Total: <strong>{{ $peminjamans->count() }}</strong> transaksi</div>
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Total: <strong>{{ $peminjamans->count() }}</strong> transaksi</span>
+        <small class="text-muted">Urutan: <strong>{{ $sort }}</strong> ({{ $direction === 'asc' ? 'A→Z / kecil→besar' : 'Z→A / besar→kecil' }})</small>
+    </div>
     <div class="table-responsive">
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Kode</th>
-                    <th>Barang</th>
-                    <th>Peminjam</th>
-                    <th class="text-center">Jml</th>
-                    <th>Tgl Pinjam</th>
-                    <th>Tgl Kembali</th>
-                    <th>Status</th>
+                    <th width="40">No</th>
+                    <th><x-sort field="kode_peminjaman" :sort="$sort" :direction="$direction">Kode</x-sort></th>
+                    <th><x-sort field="nama_barang"     :sort="$sort" :direction="$direction">Barang</x-sort></th>
+                    <th><x-sort field="nama_peminjam"   :sort="$sort" :direction="$direction">Peminjam</x-sort></th>
+                    <th class="text-center"><x-sort field="jumlah_pinjam" :sort="$sort" :direction="$direction">Jml</x-sort></th>
+                    <th><x-sort field="tanggal_pinjam"          :sort="$sort" :direction="$direction">Tgl Pinjam</x-sort></th>
+                    <th><x-sort field="tanggal_kembali_rencana" :sort="$sort" :direction="$direction">Tgl Kembali</x-sort></th>
+                    <th><x-sort field="status" :sort="$sort" :direction="$direction">Status</x-sort></th>
                     <th>Kondisi Kembali</th>
+                    <th>Catatan</th>
                     <th>Oleh</th>
                 </tr>
             </thead>
@@ -106,10 +154,21 @@
                             <span class="text-muted-sm">—</span>
                         @endif
                     </td>
+                    <td>
+                        @if($p->catatan_terlambat)
+                            <span class="badge bg-danger" title="{{ $p->catatan_terlambat }}">
+                                <i class="bi bi-clock-history me-1"></i>{{ $p->catatan_terlambat }}
+                            </span>
+                        @elseif($p->keterangan_kembali)
+                            <small class="text-muted">{{ Str::limit($p->keterangan_kembali, 30) }}</small>
+                        @else
+                            <span class="text-muted-sm">—</span>
+                        @endif
+                    </td>
                     <td class="text-muted-sm">{{ $p->user->display_name }}</td>
                 </tr>
                 @empty
-                <tr><td colspan="10" class="text-center text-muted py-4">Tidak ada data peminjaman</td></tr>
+                <tr><td colspan="11" class="text-center text-muted py-4">Tidak ada data peminjaman</td></tr>
                 @endforelse
             </tbody>
         </table>

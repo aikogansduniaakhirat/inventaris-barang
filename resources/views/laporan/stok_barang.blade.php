@@ -27,7 +27,7 @@
                 <select name="kategori" class="form-select">
                     <option value="">Semua Kategori</option>
                     @foreach($kategoris as $k)
-                    <option value="{{ $k->id }}" {{ request('kategori')==$k->id ? 'selected':'' }}>{{ $k->nama_kategori }}</option>
+                    <option value="{{ $k->id_kategoris }}" {{ request('kategori')==$k->id_kategoris ? 'selected':'' }}>{{ $k->nama_kategori }}</option>
                     @endforeach
                 </select>
             </div>
@@ -53,6 +53,9 @@
                 <button type="submit" class="btn btn-primary flex-fill"><i class="bi bi-funnel me-1"></i>Filter</button>
                 <a href="{{ route('laporan.stok-barang') }}" class="btn btn-outline-secondary"><i class="bi bi-x-lg"></i></a>
             </div>
+            {{-- Preserve sort --}}
+            @if(request('sort'))<input type="hidden" name="sort"      value="{{ request('sort') }}">@endif
+            @if(request('direction'))<input type="hidden" name="direction" value="{{ request('direction') }}">@endif
         </form>
     </div>
 </div>
@@ -103,14 +106,14 @@
             <thead>
                 <tr>
                     <th width="40">No</th>
-                    <th>Kode</th>
-                    <th>Nama Barang</th>
-                    <th>Kategori</th>
-                    <th>Lokasi</th>
-                    <th class="text-center">Jumlah</th>
-                    <th class="text-center">Tersedia</th>
-                    <th>Kondisi</th>
-                    <th class="text-end">Nilai</th>
+                    <th><x-sort field="kode_barang"   :sort="$sort" :direction="$direction">Kode</x-sort></th>
+                    <th><x-sort field="nama_barang"   :sort="$sort" :direction="$direction">Nama Barang</x-sort></th>
+                    <th><x-sort field="nama_kategori" :sort="$sort" :direction="$direction">Kategori</x-sort></th>
+                    <th><x-sort field="lokasi"        :sort="$sort" :direction="$direction">Lokasi</x-sort></th>
+                    <th class="text-center"><x-sort field="jumlah" :sort="$sort" :direction="$direction">Jumlah</x-sort></th>
+                    <th class="text-center"><x-sort field="jumlah_tersedia" :sort="$sort" :direction="$direction">Tersedia</x-sort></th>
+                    <th><x-sort field="kondisi" :sort="$sort" :direction="$direction">Kondisi</x-sort></th>
+                    <th class="text-end"><x-sort field="nilai" :sort="$sort" :direction="$direction">Nilai</x-sort></th>
                 </tr>
             </thead>
             <tbody>
@@ -142,6 +145,9 @@
             </tfoot>
             @endif
         </table>
+    </div>
+    <div class="card-footer text-muted small">
+        Urutan: <strong>{{ $sort }}</strong> ({{ $direction === 'asc' ? 'A→Z / kecil→besar' : 'Z→A / besar→kecil' }})
     </div>
 </div>
 @endsection

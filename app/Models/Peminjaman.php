@@ -127,4 +127,40 @@ class Peminjaman extends Model
     {
         return $this->id_peminjamans;
     }
+
+    // Backward-compat: kolom ini dipindah ke tabel pengembalians
+    // Accessor return pengembalian terakhir (full return) kalau ada
+    public function getTanggalKembaliAktualAttribute(): mixed
+    {
+        $last = $this->pengembalians()->latest('tanggal_kembali')->first();
+        return $last?->tanggal_kembali;
+    }
+
+    public function getKondisiKembaliAttribute(): mixed
+    {
+        $last = $this->pengembalians()->latest('tanggal_kembali')->first();
+        return $last?->kondisi_kembali;
+    }
+
+    public function getKeteranganKembaliAttribute(): mixed
+    {
+        $last = $this->pengembalians()->latest('tanggal_kembali')->first();
+        return $last?->keterangan;
+    }
+
+    /**
+     * Accessor: catatan terlambat (untuk display di view/laporan).
+     * Format: "Terlambat X hari dari rencana (dd/mm/yyyy)"
+     */
+    public function getCatatanTerlambatAttribute(): ?string
+    {
+        $aktual = $this->tanggal_kembali_aktual;
+        $rencana = $this->tanggal_kembali_rencana;
+
+        if (!$aktual || !$rencana) return null;
+        if ($aktual->lessThanOrEqualTo($rencana)) return null;
+
+        $hari = $rencana->diffInDays($aktual);
+        return "Terlambat {$hari} hari dari rencana (" . $rencana->format('d/m/Y') . ")";
+    }
 }

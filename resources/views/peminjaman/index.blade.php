@@ -97,6 +97,7 @@
                     <th><x-sort field="tanggal_kembali_rencana" :sort="$sort" :direction="$direction">Tgl Kembali</x-sort></th>
                     <th><x-sort field="status" :sort="$sort" :direction="$direction">Status</x-sort></th>
                     <th>Kondisi Kembali</th>
+                    <th>Catatan</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -151,6 +152,15 @@
                                 };
                             @endphp
                             <span class="badge bg-{{ $kbColor }}">{{ $kbLabel }}</span>
+                        @else
+                            <span class="text-muted-sm">—</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if($p->catatan_terlambat)
+                            <span class="badge bg-danger" title="{{ $p->catatan_terlambat }}">
+                                <i class="bi bi-clock-history me-1"></i>{{ $p->catatan_terlambat }}
+                            </span>
                         @else
                             <span class="text-muted-sm">—</span>
                         @endif
@@ -211,7 +221,7 @@
                 @endif
 
                 @empty
-                <tr><td colspan="10">
+                <tr><td colspan="11">
                     <div class="empty-state">
                         <i class="bi bi-inbox d-block"></i>
                         <h6>Tidak ada data peminjaman</h6>

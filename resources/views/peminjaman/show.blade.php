@@ -103,6 +103,17 @@
                         <span class="fw-semibold text-success">{{ $peminjaman->tanggal_kembali_aktual->format('d F Y') }}</span>
                     </div>
                     @endif
+                    @if($peminjaman->catatan_terlambat)
+                    <div class="col-12">
+                        <div class="alert alert-danger d-flex align-items-start gap-2 mb-0">
+                            <i class="bi bi-exclamation-triangle-fill mt-1"></i>
+                            <div>
+                                <strong>Catatan Keterlambatan:</strong>
+                                {{ $peminjaman->catatan_terlambat }}
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                     @if($peminjaman->kondisi_kembali)
                     <div class="col-md-6">
                         <label class="text-muted-sm d-block">Kondisi Saat Kembali</label>
