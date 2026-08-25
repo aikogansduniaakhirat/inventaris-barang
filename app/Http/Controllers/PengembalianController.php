@@ -142,7 +142,8 @@ class PengembalianController extends Controller
                 'status' => $sisaSetelah <= 0 ? 'dikembalikan' : 'dipinjam',
             ]);
 
-            // Auto-tandai terlambat
+            // Auto-tandai terlambat (setelah status update di-refresh)
+            $peminjaman->refresh();
             if ($peminjaman->status === 'dipinjam' && $peminjaman->tanggal_kembali_rencana < now()->toDateString()) {
                 $peminjaman->update(['status' => 'terlambat']);
             }

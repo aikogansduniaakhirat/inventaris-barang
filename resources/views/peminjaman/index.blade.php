@@ -88,6 +88,7 @@
         <table class="table table-hover align-middle mb-0">
             <thead>
                 <tr>
+                    <th width="44">#</th>
                     <th><x-sort field="kode_peminjaman" :sort="$sort" :direction="$direction">Kode</x-sort></th>
                     <th><x-sort field="nama_barang"      :sort="$sort" :direction="$direction">Barang</x-sort></th>
                     <th><x-sort field="nama_peminjam"    :sort="$sort" :direction="$direction">Peminjam</x-sort></th>
@@ -101,7 +102,9 @@
             </thead>
             <tbody>
                 @forelse($peminjamans as $p)
+                @php $rowNum = ($peminjamans->currentPage() - 1) * $peminjamans->perPage() + $loop->iteration; @endphp
                 <tr class="{{ $p->is_terlambat ? 'table-danger' : ($p->status === 'menunggu' ? 'table-warning' : ($p->status === 'ditolak' ? 'table-light' : '')) }}">
+                    <td class="text-muted text-center font-monospace">{{ $rowNum }}</td>
                     <td><a href="{{ route('peminjaman.show', $p) }}" class="fw-semibold text-decoration-none font-monospace">{{ $p->kode_peminjaman }}</a></td>
                     <td>
                         <div class="fw-semibold">{{ Str::limit($p->barang->nama_barang, 30) }}</div>
@@ -208,7 +211,7 @@
                 @endif
 
                 @empty
-                <tr><td colspan="9">
+                <tr><td colspan="10">
                     <div class="empty-state">
                         <i class="bi bi-inbox d-block"></i>
                         <h6>Tidak ada data peminjaman</h6>

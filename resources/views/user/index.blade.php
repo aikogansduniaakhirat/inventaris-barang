@@ -41,6 +41,7 @@
         <table class="table table-hover align-middle mb-0">
             <thead>
                 <tr>
+                    <th width="44">#</th>
                     <th><x-sort field="nama_lengkap" :sort="$sort" :direction="$direction">Pengguna</x-sort></th>
                     <th><x-sort field="name"         :sort="$sort" :direction="$direction">Username</x-sort></th>
                     <th><x-sort field="email"        :sort="$sort" :direction="$direction">Email</x-sort></th>
@@ -52,7 +53,9 @@
             </thead>
             <tbody>
                 @forelse($users as $u)
+                @php $rowNum = ($users->currentPage() - 1) * $users->perPage() + $loop->iteration; @endphp
                 <tr>
+                    <td class="text-muted text-center font-monospace">{{ $rowNum }}</td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
                             <div class="topbar-avatar">{{ strtoupper(substr($u->display_name,0,1)) }}</div>
@@ -91,7 +94,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="7" class="text-center text-muted py-4">Tidak ada pengguna</td></tr>
+                <tr><td colspan="8" class="text-center text-muted py-4">Tidak ada pengguna</td></tr>
                 @endforelse
             </tbody>
         </table>

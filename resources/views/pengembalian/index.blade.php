@@ -36,6 +36,7 @@
         <table class="table table-hover mb-0">
             <thead class="table-light">
                 <tr>
+                    <th width="44">#</th>
                     <th><x-sort field="kode_pengembalian" :sort="$sort" :direction="$direction">Kode Kembali</x-sort></th>
                     <th><x-sort field="kode_peminjaman"    :sort="$sort" :direction="$direction">Peminjaman</x-sort></th>
                     <th>Barang</th>
@@ -48,7 +49,9 @@
             </thead>
             <tbody>
                 @forelse($pengembalians as $p)
+                @php $rowNum = ($pengembalians->currentPage() - 1) * $pengembalians->perPage() + $loop->iteration; @endphp
                 <tr>
+                    <td class="text-muted text-center font-monospace">{{ $rowNum }}</td>
                     <td><code>{{ $p->kode_pengembalian }}</code></td>
                     <td><a href="{{ route('peminjaman.show', $p->peminjaman_id) }}">{{ $p->peminjaman->kode_peminjaman }}</a></td>
                     <td>{{ $p->peminjaman->barang->nama_barang ?? '-' }}</td>
@@ -63,7 +66,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="8" class="text-center text-muted py-4">Belum ada data pengembalian.</td></tr>
+                <tr><td colspan="9" class="text-center text-muted py-4">Belum ada data pengembalian.</td></tr>
                 @endforelse
             </tbody>
         </table>
