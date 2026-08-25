@@ -16,7 +16,7 @@ class BarangController extends Controller
      * 'nama_kategori' = sort by relasi (handled by leftJoin).
      */
     private const SORTABLE = [
-        'nama_barang', 'kode_barang', 'merk', 'jumlah',
+        'id_barangs', 'nama_barang', 'kode_barang', 'merk', 'jumlah',
         'jumlah_tersedia', 'kondisi', 'lokasi', 'nilai', 'created_at',
         'nama_kategori',
     ];

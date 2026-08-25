@@ -88,7 +88,7 @@
         <table class="table table-hover align-middle mb-0">
             <thead>
                 <tr>
-                    <th width="44">ID</th>
+                    <th width="44"><x-sort field="id_peminjamans" :sort="$sort" :direction="$direction">ID</x-sort></th>
                     <th><x-sort field="kode_peminjaman" :sort="$sort" :direction="$direction">Kode</x-sort></th>
                     <th><x-sort field="nama_barang"      :sort="$sort" :direction="$direction">Barang</x-sort></th>
                     <th><x-sort field="nama_peminjam"    :sort="$sort" :direction="$direction">Peminjam</x-sort></th>

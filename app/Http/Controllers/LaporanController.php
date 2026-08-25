@@ -11,13 +11,13 @@ class LaporanController extends Controller
 {
     /** Sortable untuk stok barang (laporan). */
     private const SORTABLE_STOK = [
-        'kode_barang', 'nama_barang', 'nama_kategori',
+        'id_barangs', 'kode_barang', 'nama_barang', 'nama_kategori',
         'lokasi', 'jumlah', 'jumlah_tersedia', 'kondisi', 'nilai',
     ];
 
     /** Sortable untuk riwayat peminjaman (laporan). */
     private const SORTABLE_RIWAYAT = [
-        'kode_peminjaman', 'nama_peminjam', 'jumlah_pinjam',
+        'id_peminjamans', 'kode_peminjaman', 'nama_peminjam', 'jumlah_pinjam',
         'tanggal_pinjam', 'tanggal_kembali_rencana', 'status',
         'nama_barang',
     ];

@@ -105,7 +105,7 @@
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th width="40">ID</th>
+                    <th width="40"><x-sort field="id_barangs" :sort="$sort" :direction="$direction">ID</x-sort></th>
                     <th><x-sort field="kode_barang"   :sort="$sort" :direction="$direction">Kode</x-sort></th>
                     <th><x-sort field="nama_barang"   :sort="$sort" :direction="$direction">Nama Barang</x-sort></th>
                     <th><x-sort field="nama_kategori" :sort="$sort" :direction="$direction">Kategori</x-sort></th>

@@ -16,7 +16,7 @@ class PeminjamanController extends Controller
      * - 'nama_peminjam_user' = sort by user.nama_lengkap
      */
     private const SORTABLE = [
-        'kode_peminjaman', 'nama_peminjam', 'jumlah_pinjam',
+        'id_peminjamans', 'kode_peminjaman', 'nama_peminjam', 'jumlah_pinjam',
         'tanggal_pinjam', 'tanggal_kembali_rencana', 'status',
         'created_at', 'nama_barang', 'nama_peminjam_user',
     ];

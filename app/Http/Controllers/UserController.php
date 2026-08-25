@@ -11,7 +11,7 @@ use Illuminate\Validation\Rules\Password;
 class UserController extends Controller
 {
     private const SORTABLE = [
-        'name', 'nama_lengkap', 'email', 'role', 'is_active', 'created_at',
+        'id_users', 'name', 'nama_lengkap', 'email', 'role', 'is_active', 'created_at',
     ];
 
     public function index(Request $request)
