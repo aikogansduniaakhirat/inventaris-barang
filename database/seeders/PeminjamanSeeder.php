@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Barang;
-use App\Models\Pengembalian;
 use App\Models\Peminjaman;
 use App\Models\User;
 use Carbon\Carbon;
@@ -30,7 +29,7 @@ class PeminjamanSeeder extends Seeder
         // ─────────────────────────────────────────────────────────────────
         // PMJ-2024-0001: sedang dipinjam (belum dikembalikan)
         // ─────────────────────────────────────────────────────────────────
-        $p1 = Peminjaman::create([
+        Peminjaman::create([
             'kode_peminjaman'         => 'PMJ-2024-0001',
             'barang_id'               => $barangs[0]->id_barangs,
             'user_id'                 => $staff->id_users,
@@ -46,7 +45,7 @@ class PeminjamanSeeder extends Seeder
         // ─────────────────────────────────────────────────────────────────
         // PMJ-2024-0002: terlambat (belum dikembalikan, lewat tanggal rencana)
         // ─────────────────────────────────────────────────────────────────
-        $p2 = Peminjaman::create([
+        Peminjaman::create([
             'kode_peminjaman'         => 'PMJ-2024-0002',
             'barang_id'               => $barangs[1]->id_barangs,
             'user_id'                 => $admin->id_users,
@@ -60,30 +59,24 @@ class PeminjamanSeeder extends Seeder
         ]);
 
         // ─────────────────────────────────────────────────────────────────
-        // PMJ-2024-0003: SUDAH dikembalikan (2 unit, full return)
-        //  → insert ke pengembalians (entitas terpisah)
+        // PMJ-2024-0003: SUDAH dikembalikan (tepat waktu, kondisi baik)
+        //  → field tanggal_kembali_aktual, kondisi_kembali, keterangan_kembali
+        //    di-update langsung di peminjamans
         // ─────────────────────────────────────────────────────────────────
-        $p3 = Peminjaman::create([
-            'kode_peminjaman'         => 'PMJ-2024-0003',
-            'barang_id'               => $barangs[2]->id_barangs,
-            'user_id'                 => $staff->id_users,
-            'nama_peminjam'           => 'Siti Nurhaliza',
-            'instansi_peminjam'       => 'Kelas XII IPS 2',
-            'jumlah_pinjam'           => 2,
-            'tanggal_pinjam'          => Carbon::now()->subDays(15)->toDateString(),
-            'tanggal_kembali_rencana' => Carbon::now()->subDays(8)->toDateString(),
-            'status'                  => 'dikembalikan',
-            'keterangan'              => 'Untuk praktikum biologi',
-        ]);
-
-        Pengembalian::create([
-            'kode_pengembalian'   => 'KMB-2024-0001',
-            'peminjaman_id'       => $p3->id_peminjamans,
-            'user_id'             => $admin->id_users,
-            'jumlah_kembali'      => 2,
-            'tanggal_kembali'     => Carbon::now()->subDays(8)->toDateString(),
-            'kondisi_kembali'     => 'baik',
-            'keterangan'          => 'Dikembalikan tepat waktu dalam kondisi baik',
+        Peminjaman::create([
+            'kode_peminjaman'          => 'PMJ-2024-0003',
+            'barang_id'                => $barangs[2]->id_barangs,
+            'user_id'                  => $staff->id_users,
+            'nama_peminjam'            => 'Siti Nurhaliza',
+            'instansi_peminjam'        => 'Kelas XII IPS 2',
+            'jumlah_pinjam'            => 2,
+            'tanggal_pinjam'           => Carbon::now()->subDays(15)->toDateString(),
+            'tanggal_kembali_rencana'  => Carbon::now()->subDays(8)->toDateString(),
+            'tanggal_kembali_aktual'   => Carbon::now()->subDays(8)->toDateString(),
+            'kondisi_kembali'          => 'baik',
+            'keterangan_kembali'       => 'Dikembalikan tepat waktu dalam kondisi baik',
+            'status'                   => 'dikembalikan',
+            'keterangan'               => 'Untuk praktikum biologi',
         ]);
 
         // ─────────────────────────────────────────────────────────────────
@@ -116,6 +109,26 @@ class PeminjamanSeeder extends Seeder
             'tanggal_kembali_rencana' => Carbon::now()->addDays(7)->toDateString(),
             'status'                  => 'menunggu',
             'keterangan'              => 'Untuk kegiatan OSIS',
+        ]);
+
+        // ─────────────────────────────────────────────────────────────────
+        // PMJ-2024-0006: SUDAH dikembalikan (TERLAMBAT, kondisi rusak ringan)
+        //  → catatan_terlambat accessor akan generate "Terlambat 3 hari..."
+        // ─────────────────────────────────────────────────────────────────
+        Peminjaman::create([
+            'kode_peminjaman'          => 'PMJ-2024-0006',
+            'barang_id'                => $barangs[0]->id_barangs,
+            'user_id'                  => $staff->id_users,
+            'nama_peminjam'            => 'Eko Pratama',
+            'instansi_peminjam'        => 'Kelas XI Bahasa',
+            'jumlah_pinjam'            => 1,
+            'tanggal_pinjam'           => Carbon::now()->subDays(20)->toDateString(),
+            'tanggal_kembali_rencana'  => Carbon::now()->subDays(10)->toDateString(),
+            'tanggal_kembali_aktual'   => Carbon::now()->subDays(7)->toDateString(),
+            'kondisi_kembali'          => 'rusak_ringan',
+            'keterangan_kembali'       => 'Ada goresan di body, tapi masih bisa dipakai',
+            'status'                   => 'dikembalikan',
+            'keterangan'               => 'Untuk lomba debat',
         ]);
     }
 }

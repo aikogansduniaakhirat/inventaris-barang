@@ -13,9 +13,9 @@
             <i class="bi bi-arrow-left me-1"></i> Kembali
         </a>
         @if(in_array($peminjaman->status, ['dipinjam','terlambat']))
-        <a href="{{ route('pengembalian.create', ['peminjaman_id' => $peminjaman->id_peminjamans]) }}" class="btn btn-success">
-            <i class="bi bi-arrow-return-left me-1"></i> Proses Pengembalian
-        </a>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalKembalikan">
+            <i class="bi bi-arrow-return-left me-1"></i> Catat Pengembalian
+        </button>
         @endif
 
         {{-- Tombol Approve & Reject (Admin only, status menunggu) --}}
@@ -167,6 +167,58 @@
         </div>
     </div>
 </div>
+
+{{-- Modal Catat Pengembalian --}}
+@if(in_array($peminjaman->status, ['dipinjam','terlambat']))
+<div class="modal fade" id="modalKembalikan" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ route('peminjaman.kembalikan', $peminjaman) }}" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-arrow-return-left text-success me-2"></i>Catat Pengembalian</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted mb-3">
+                        Peminjaman <strong>{{ $peminjaman->kode_peminjaman }}</strong> —
+                        <strong>{{ $peminjaman->jumlah_pinjam }} {{ $peminjaman->barang->satuan }}</strong>
+                        {{ $peminjaman->barang->nama_barang }}
+                        akan ditandai sebagai <strong>Dikembalikan</strong>.
+                    </p>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Tanggal Kembali <span class="text-danger">*</span></label>
+                            <input type="date" name="tanggal_kembali" class="form-control"
+                                   value="{{ date('Y-m-d') }}" max="{{ date('Y-m-d') }}" required>
+                            <small class="text-muted">Rencana: {{ $peminjaman->tanggal_kembali_rencana->format('d/m/Y') }}</small>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Kondisi Barang Saat Dikembalikan <span class="text-danger">*</span></label>
+                            <select name="kondisi_kembali" class="form-select" required>
+                                <option value="baik">Baik (normal, tidak ada kerusakan)</option>
+                                <option value="rusak_ringan">Rusak Ringan (ada cacat minor)</option>
+                                <option value="rusak_berat">Rusak Berat (tidak bisa dipakai)</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Keterangan <span class="text-muted">(opsional)</span></label>
+                            <textarea name="keterangan_kembali" class="form-control" rows="2"
+                                      placeholder="Catatan tambahan (misal: ada bagian yang patah, dll)"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check2 me-1"></i>Simpan Pengembalian
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endif
 
 {{-- Modal Tolak --}}
 @if(auth()->user()->isAdmin() && $peminjaman->status === 'menunggu')

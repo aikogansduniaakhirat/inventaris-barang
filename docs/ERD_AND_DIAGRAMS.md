@@ -2,6 +2,8 @@
 
 > Dokumen diagram untuk revisi skripsi.
 > Catatan dosen: "ERD — primary key, atribut, penyederhanaan diagram, entitas pengembalian."
+>
+> **Update 2026-08-26 (v3):** entitas pengembalian dikembalikan (revert ke field inline di peminjamans) atas permintaan user. Skenario disederhanakan jadi full-return only — tanpa partial return, tanpa history multi-event. Catatan dosen di atas (no. 4) sudah tidak berlaku.
 
 ---
 
@@ -65,29 +67,20 @@ erDiagram
         int jumlah_pinjam
         date tanggal_pinjam
         date tanggal_kembali_rencana
-        enum status "menunggu|dipinjam|dikembalikan|terlambat|ditolak|rusak"
-        text alasan_tolak
-        text keterangan
-    }
-
-    PENGEMBALIANS {
-        int id_pengembalians PK
-        string kode_pengembalian UK
-        int peminjaman_id FK → PEMINJAMANS(id_peminjamans)
-        int user_id FK → USERS(id_users)
-        int jumlah_kembali
-        date tanggal_kembali
-        enum kondisi_kembali "baik|rusak_ringan|rusak_berat"
-        text keterangan
+        date tanggal_kembali_aktual nullable
+        enum kondisi_kembali "baik|rusak_ringan|rusak_berat" nullable
+        text keterangan_kembali nullable
+        enum status "menunggu|dipinjam|dikembalikan|terlambat|ditolak"
     }
 ```
 
 ### Catatan Penting ERD
 
 1. **Primary key (id)**: tiap entitas punya PK auto-increment
-2. **Unique key**: `kode_barang`, `kode_peminjaman`, `kode_pengembalian`, `kode_kategori`, `email`
+2. **Unique key**: `kode_barang`, `kode_peminjaman`, `kode_kategori`, `email`
 3. **Foreign key** dengan `onDelete('restrict')` agar data historis tidak hilang
-4. **Refactor pengembalian**: dipisah jadi entitas sendiri (catatan dosen) supaya bisa **pengembalian parsial** (pinjam 5, kembali 2 dulu)
+4. **Pengembalian**: field `tanggal_kembali_aktual`, `kondisi_kembali`, `keterangan_kembali`
+   disimpan langsung di tabel `peminjamans` (simplifikasi — full return only)
 
 ---
 

@@ -95,8 +95,8 @@
                     <th class="text-center"><x-sort field="jumlah_pinjam" :sort="$sort" :direction="$direction">Jml</x-sort></th>
                     <th><x-sort field="tanggal_pinjam"          :sort="$sort" :direction="$direction">Tgl Pinjam</x-sort></th>
                     <th><x-sort field="tanggal_kembali_rencana" :sort="$sort" :direction="$direction">Tgl Kembali</x-sort></th>
+                    <th><x-sort field="tanggal_kembali_aktual"  :sort="$sort" :direction="$direction">Tgl Kembali (Aktual)</x-sort></th>
                     <th><x-sort field="status" :sort="$sort" :direction="$direction">Status</x-sort></th>
-                    <th>Kondisi Kembali</th>
                     <th>Catatan</th>
                     <th>Aksi</th>
                 </tr>
@@ -134,23 +134,17 @@
                         @endif
                     </td>
                     <td>
-                        @if($p->kondisi_kembali)
+                        @if($p->tanggal_kembali_aktual)
                             @php
-                                $kb = $p->kondisi_kembali;
-                                $kbColor = match($kb) {
-                                    'baik'        => 'success',
-                                    'rusak_ringan' => 'warning',
-                                    'rusak_berat'  => 'danger',
-                                    default        => 'secondary',
-                                };
-                                $kbLabel = match($kb) {
-                                    'baik'        => 'Baik',
-                                    'rusak_ringan' => 'Rusak Ringan',
-                                    'rusak_berat'  => 'Rusak Berat',
-                                    default        => $kb,
-                                };
+                                $warna = $p->catatan_terlambat ? 'text-danger fw-bold' : 'text-success fw-semibold';
+                                $ikon  = $p->catatan_terlambat ? '↩' : '✓';
                             @endphp
-                            <span class="badge bg-{{ $kbColor }}">{{ $kbLabel }}</span>
+                            <span class="{{ $warna }} font-monospace">
+                                {{ $ikon }} {{ $p->tanggal_kembali_aktual->format('d/m/Y') }}
+                            </span>
+                            @if($p->kondisi_kembali)
+                            <br><small class="badge bg-{{ $p->kondisi_kembali_badge }}">{{ $p->kondisi_kembali_label }}</small>
+                            @endif
                         @else
                             <span class="text-muted-sm">—</span>
                         @endif
@@ -181,13 +175,6 @@
                                 data-bs-toggle="modal" data-bs-target="#modalTolak{{ $p->id }}">
                                 <i class="bi bi-x-lg"></i>
                             </button>
-                            @endif
-
-                            {{-- Tombol Pengembalian --}}
-                            @if(in_array($p->status, ['dipinjam','terlambat']))
-                            <a href="{{ route('pengembalian.create', ['peminjaman_id' => $p->id_peminjamans]) }}" class="btn btn-sm btn-outline-success" title="Proses Pengembalian">
-                                <i class="bi bi-arrow-return-left"></i>
-                            </a>
                             @endif
                         </div>
                     </td>

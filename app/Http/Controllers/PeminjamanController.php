@@ -183,17 +183,47 @@ class PeminjamanController extends Controller
                          ->with('success', 'Permintaan peminjaman telah ditolak.');
     }
 
-    public function formPengembalian(Peminjaman $peminjaman)
+    /**
+     * Catat pengembalian (inline dari detail peminjaman).
+     * Full return only — sederhana, field tanggal_kembali_aktual
+     * di-update langsung di tabel peminjamans.
+     */
+    public function kembalikan(Request $request, Peminjaman $peminjaman)
     {
-        // DEPRECATED: pengembalian sekarang entitas terpisah
-        // Redirect ke form pengembalian baru dengan peminjaman_id
-        return redirect()->route('pengembalian.create', ['peminjaman_id' => $peminjaman->id_peminjamans]);
-    }
+        if (!in_array($peminjaman->status, ['dipinjam', 'terlambat'])) {
+            return back()->with('error', 'Peminjaman ini tidak dalam status yang dapat dikembalikan.');
+        }
 
-    public function prosesPengembalian(Request $request, Peminjaman $peminjaman)
-    {
-        // DEPRECATED: handled by PengembalianController@store
-        return redirect()->route('pengembalian.create', ['peminjaman_id' => $peminjaman->id_peminjamans]);
+        $validated = $request->validate([
+            'tanggal_kembali'   => ['required', 'date'],
+            'kondisi_kembali'   => ['required', 'in:baik,rusak_ringan,rusak_berat'],
+            'keterangan_kembali'=> ['nullable', 'string', 'max:500'],
+        ]);
+
+        $barang = $peminjaman->barang;
+
+        DB::transaction(function () use ($peminjaman, $barang, $validated) {
+            // Tentukan status akhir: dikembalikan
+            $peminjaman->update([
+                'tanggal_kembali_aktual' => $validated['tanggal_kembali'],
+                'kondisi_kembali'        => $validated['kondisi_kembali'],
+                'keterangan_kembali'     => $validated['keterangan_kembali'] ?? null,
+                'status'                 => 'dikembalikan',
+            ]);
+
+            // Stok balik
+            $barang->increment('jumlah_tersedia', $peminjaman->jumlah_pinjam);
+
+            // Update kondisi barang kalau ada kerusakan
+            if ($validated['kondisi_kembali'] === 'rusak_berat') {
+                $barang->update(['kondisi' => 'rusak_berat']);
+            } elseif ($validated['kondisi_kembali'] === 'rusak_ringan' && $barang->kondisi === 'baik') {
+                $barang->update(['kondisi' => 'rusak_ringan']);
+            }
+        });
+
+        return redirect()->route('peminjaman.show', $peminjaman)
+                         ->with('success', 'Pengembalian berhasil dicatat.');
     }
 
     private function generateKodePeminjaman(): string

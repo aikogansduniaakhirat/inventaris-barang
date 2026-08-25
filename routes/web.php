@@ -4,7 +4,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\PeminjamanController;
-use App\Http\Controllers\PengembalianController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -25,12 +24,12 @@ Route::middleware(['auth', 'role'])->group(function () {
     Route::post('/barang/{barang}/lapor-kerusakan', [BarangController::class, 'prosesLaporKerusakan'])->name('barang.proses-lapor-kerusakan');
 
 
-    // ── Peminjaman & Pengembalian ────────────────────────────────────────────
+    // ── Peminjaman (pengembalian inline di show) ─────────────────────────────
     Route::resource('peminjaman', PeminjamanController::class)->only(['index', 'create', 'store', 'show']);
 
-    // Pengembalian = entitas terpisah (refactor: catatan dosen "entitas pengembalian")
-    Route::resource('pengembalian', PengembalianController::class)->only(['index', 'create', 'store', 'show']);
-    Route::get('pengembalian-select', [PengembalianController::class, 'create'])->name('pengembalian.select');
+    // Catat pengembalian (inline dari halaman detail peminjaman)
+    Route::post('/peminjaman/{peminjaman}/kembalikan', [PeminjamanController::class, 'kembalikan'])
+         ->name('peminjaman.kembalikan');
 
     // Approve & Reject — hanya Admin
     Route::middleware('role:admin')->group(function () {

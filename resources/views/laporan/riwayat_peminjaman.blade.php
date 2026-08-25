@@ -106,9 +106,9 @@
                     <th><x-sort field="nama_peminjam"   :sort="$sort" :direction="$direction">Peminjam</x-sort></th>
                     <th class="text-center"><x-sort field="jumlah_pinjam" :sort="$sort" :direction="$direction">Jml</x-sort></th>
                     <th><x-sort field="tanggal_pinjam"          :sort="$sort" :direction="$direction">Tgl Pinjam</x-sort></th>
-                    <th><x-sort field="tanggal_kembali_rencana" :sort="$sort" :direction="$direction">Tgl Kembali</x-sort></th>
+                    <th><x-sort field="tanggal_kembali_rencana" :sort="$sort" :direction="$direction">Rencana Kembali</x-sort></th>
+                    <th><x-sort field="tanggal_kembali_aktual"  :sort="$sort" :direction="$direction">Tgl Kembali</x-sort></th>
                     <th><x-sort field="status" :sort="$sort" :direction="$direction">Status</x-sort></th>
-                    <th>Kondisi Kembali</th>
                     <th>Catatan</th>
                     <th>Oleh</th>
                 </tr>
@@ -126,34 +126,25 @@
                     <td class="text-center">{{ $p->jumlah_pinjam }}</td>
                     <td>{{ $p->tanggal_pinjam->format('d/m/Y') }}</td>
                     <td>
-                        {{ $p->tanggal_kembali_rencana->format('d/m/Y') }}
-                        @if($p->tanggal_kembali_aktual)
-                        <br><small class="text-success">↩ {{ $p->tanggal_kembali_aktual->format('d/m/Y') }}</small>
-                        @endif
+                        <div class="text-muted-sm">{{ $p->tanggal_kembali_rencana->format('d/m/Y') }}</div>
                     </td>
-                    <td><span class="badge bg-{{ $p->status_badge }}">{{ $p->status_label }}</span></td>
                     <td>
-                        @if($p->kondisi_kembali)
+                        @if($p->tanggal_kembali_aktual)
                             @php
-                                $kb = $p->kondisi_kembali;
-                                $kbColor = match($kb) {
-                                    'baik'        => 'success',
-                                    'rusak_ringan' => 'warning',
-                                    'rusak_berat'  => 'danger',
-                                    default        => 'secondary',
-                                };
-                                $kbLabel = match($kb) {
-                                    'baik'        => 'Baik',
-                                    'rusak_ringan' => 'Rusak Ringan',
-                                    'rusak_berat'  => 'Rusak Berat',
-                                    default        => $kb,
-                                };
+                                $warna = $p->catatan_terlambat ? 'text-danger fw-bold' : 'text-success fw-semibold';
+                                $ikon  = $p->catatan_terlambat ? '↩' : '✓';
                             @endphp
-                            <span class="badge bg-{{ $kbColor }}">{{ $kbLabel }}</span>
+                            <span class="{{ $warna }} font-monospace">
+                                {{ $ikon }} {{ $p->tanggal_kembali_aktual->format('d/m/Y') }}
+                            </span>
+                            @if($p->kondisi_kembali)
+                            <br><small class="badge bg-{{ $p->kondisi_kembali_badge }}">{{ $p->kondisi_kembali_label }}</small>
+                            @endif
                         @else
                             <span class="text-muted-sm">—</span>
                         @endif
                     </td>
+                    <td><span class="badge bg-{{ $p->status_badge }}">{{ $p->status_label }}</span></td>
                     <td>
                         @if($p->catatan_terlambat)
                             <span class="badge bg-danger" title="{{ $p->catatan_terlambat }}">
