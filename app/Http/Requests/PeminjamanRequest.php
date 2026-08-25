@@ -14,7 +14,7 @@ class PeminjamanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'barang_id'               => ['required', 'exists:barangs,id'],
+            'barang_id'               => ['required', 'exists:barangs,id_barangs'],
             'nama_peminjam'           => ['required', 'string', 'max:200'],
             'instansi_peminjam'       => ['nullable', 'string', 'max:200'],
             'jumlah_pinjam'           => ['required', 'integer', 'min:1'],

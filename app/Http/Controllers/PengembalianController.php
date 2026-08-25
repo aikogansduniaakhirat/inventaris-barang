@@ -62,7 +62,7 @@ class PengembalianController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'peminjaman_id'    => ['required', 'exists:peminjamans,id'],
+            'peminjaman_id'    => ['required', 'exists:peminjamans,id_peminjamans'],
             'jumlah_kembali'   => ['required', 'integer', 'min:1'],
             'tanggal_kembali'  => ['required', 'date'],
             'kondisi_kembali'  => ['required', 'in:baik,rusak_ringan,rusak_berat'],
@@ -76,7 +76,7 @@ class PengembalianController extends Controller
         }
 
         // Hitung sisa yang belum dikembalikan
-        $sudahKembali = Pengembalian::where('peminjaman_id', $peminjaman->id)->sum('jumlah_kembali');
+        $sudahKembali = Pengembalian::where('peminjaman_id', $peminjaman->id_peminjamans)->sum('jumlah_kembali');
         $sisaPinjam   = $peminjaman->jumlah_pinjam - $sudahKembali;
 
         if ($validated['jumlah_kembali'] > $sisaPinjam) {

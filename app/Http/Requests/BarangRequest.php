@@ -13,11 +13,11 @@ class BarangRequest extends FormRequest
 
     public function rules(): array
     {
-        $barangId = $this->route('barang')?->id;
+        $barangId = $this->route('barang')?->id_barangs;
 
         return [
             'nama_barang'  => ['required', 'string', 'max:200'],
-            'kategori_id'  => ['required', 'exists:kategoris,id'],
+            'kategori_id'  => ['required', 'exists:kategoris,id_kategoris'],
             'merk'         => ['nullable', 'string', 'max:100'],
             'jumlah'       => ['required', 'integer', 'min:0'],
             'jumlah_tersedia' => ['required', 'integer', 'min:0', 'lte:jumlah'],
