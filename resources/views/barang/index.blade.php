@@ -77,12 +77,12 @@
             <thead>
                 <tr>
                     <th width="44">Foto</th>
-                    <th>Kode / Nama Barang</th>
-                    <th>Kategori</th>
-                    <th>Lokasi</th>
-                    <th class="text-center">Jml</th>
-                    <th class="text-center">Tersedia</th>
-                    <th>Kondisi</th>
+                    <th><x-sort field="nama_barang"  :sort="$sort" :direction="$direction">Kode / Nama Barang</x-sort></th>
+                    <th><x-sort field="nama_kategori" :sort="$sort" :direction="$direction">Kategori</x-sort></th>
+                    <th><x-sort field="lokasi"        :sort="$sort" :direction="$direction">Lokasi</x-sort></th>
+                    <th class="text-center"><x-sort field="jumlah" :sort="$sort" :direction="$direction">Jml</x-sort></th>
+                    <th class="text-center"><x-sort field="jumlah_tersedia" :sort="$sort" :direction="$direction">Tersedia</x-sort></th>
+                    <th><x-sort field="kondisi" :sort="$sort" :direction="$direction">Kondisi</x-sort></th>
                     <th width="120">Aksi</th>
                 </tr>
             </thead>
@@ -140,7 +140,10 @@
         </table>
     </div>
     @if($barangs->hasPages())
-    <div class="card-body border-top py-3">
+    <div class="card-body border-top py-3 d-flex justify-content-between align-items-center">
+        <small class="text-muted">
+            Urutan: <strong>{{ $sort }}</strong> ({{ $direction === 'asc' ? 'A→Z / kecil→besar' : 'Z→A / besar→kecil' }})
+        </small>
         {{ $barangs->links() }}
     </div>
     @endif

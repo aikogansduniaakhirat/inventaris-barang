@@ -41,12 +41,12 @@
         <table class="table table-hover align-middle mb-0">
             <thead>
                 <tr>
-                    <th>Pengguna</th>
-                    <th>Username</th>
-                    <th>Email</th>
+                    <th><x-sort field="nama_lengkap" :sort="$sort" :direction="$direction">Pengguna</x-sort></th>
+                    <th><x-sort field="name"         :sort="$sort" :direction="$direction">Username</x-sort></th>
+                    <th><x-sort field="email"        :sort="$sort" :direction="$direction">Email</x-sort></th>
                     <th>Telepon</th>
-                    <th>Role</th>
-                    <th>Status</th>
+                    <th><x-sort field="role"         :sort="$sort" :direction="$direction">Role</x-sort></th>
+                    <th><x-sort field="is_active"     :sort="$sort" :direction="$direction">Status</x-sort></th>
                     <th>Aksi</th>
                 </tr>
             </thead>

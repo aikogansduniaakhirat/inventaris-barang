@@ -88,13 +88,13 @@
         <table class="table table-hover align-middle mb-0">
             <thead>
                 <tr>
-                    <th>Kode</th>
-                    <th>Barang</th>
-                    <th>Peminjam</th>
-                    <th class="text-center">Jml</th>
-                    <th>Tgl Pinjam</th>
-                    <th>Tgl Kembali</th>
-                    <th>Status</th>
+                    <th><x-sort field="kode_peminjaman" :sort="$sort" :direction="$direction">Kode</x-sort></th>
+                    <th><x-sort field="nama_barang"      :sort="$sort" :direction="$direction">Barang</x-sort></th>
+                    <th><x-sort field="nama_peminjam"    :sort="$sort" :direction="$direction">Peminjam</x-sort></th>
+                    <th class="text-center"><x-sort field="jumlah_pinjam" :sort="$sort" :direction="$direction">Jml</x-sort></th>
+                    <th><x-sort field="tanggal_pinjam"          :sort="$sort" :direction="$direction">Tgl Pinjam</x-sort></th>
+                    <th><x-sort field="tanggal_kembali_rencana" :sort="$sort" :direction="$direction">Tgl Kembali</x-sort></th>
+                    <th><x-sort field="status" :sort="$sort" :direction="$direction">Status</x-sort></th>
                     <th>Kondisi Kembali</th>
                     <th>Aksi</th>
                 </tr>

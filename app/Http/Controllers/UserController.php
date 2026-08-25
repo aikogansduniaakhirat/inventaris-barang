@@ -10,6 +10,10 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
+    private const SORTABLE = [
+        'name', 'nama_lengkap', 'email', 'role', 'is_active', 'created_at',
+    ];
+
     public function index(Request $request)
     {
         $query = User::query();
@@ -19,8 +23,18 @@ class UserController extends Controller
         }
         if ($request->filled('role')) $query->where('role', $request->role);
 
-        $users = $query->orderBy('nama_lengkap')->paginate(15)->withQueryString();
-        return view('user.index', compact('users'));
+        $sort      = $request->get('sort', 'nama_lengkap');
+        $direction = $request->get('direction', 'asc');
+        $direction = in_array($direction, ['asc', 'desc']) ? $direction : 'asc';
+
+        if (in_array($sort, self::SORTABLE)) {
+            $query->orderBy($sort, $direction);
+        } else {
+            $query->orderBy('nama_lengkap', 'asc');
+        }
+
+        $users = $query->paginate(15)->withQueryString();
+        return view('user.index', compact('users', 'sort', 'direction'));
     }
 
     public function create()

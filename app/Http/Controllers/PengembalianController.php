@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\DB;
 
 class PengembalianController extends Controller
 {
+    /**
+     * Whitelist kolom sortable.
+     * - 'kode_peminjaman' = sort by relasi peminjaman
+     */
+    private const SORTABLE = [
+        'kode_pengembalian', 'jumlah_kembali', 'tanggal_kembali',
+        'kondisi_kembali', 'created_at', 'kode_peminjaman',
+    ];
+
     public function index(Request $request)
     {
         $query = Pengembalian::with(['peminjaman.barang', 'user']);
@@ -32,8 +41,24 @@ class PengembalianController extends Controller
             $query->where('tanggal_kembali', '<=', $request->tanggal_sampai);
         }
 
-        $pengembalians = $query->latest('tanggal_kembali')->paginate(15)->withQueryString();
-        return view('pengembalian.index', compact('pengembalians'));
+        $sort      = $request->get('sort', 'tanggal_kembali');
+        $direction = $request->get('direction', 'desc');
+        $direction = in_array($direction, ['asc', 'desc']) ? $direction : 'desc';
+
+        if (in_array($sort, self::SORTABLE)) {
+            if ($sort === 'kode_peminjaman') {
+                $query->leftJoin('peminjamans', 'pengembalians.peminjaman_id', '=', 'peminjamans.id_peminjamans')
+                      ->select('pengembalians.*')
+                      ->orderBy('peminjamans.kode_peminjaman', $direction);
+            } else {
+                $query->orderBy($sort, $direction);
+            }
+        } else {
+            $query->orderBy('tanggal_kembali', 'desc');
+        }
+
+        $pengembalians = $query->paginate(15)->withQueryString();
+        return view('pengembalian.index', compact('pengembalians', 'sort', 'direction'));
     }
 
     public function create(Request $request)

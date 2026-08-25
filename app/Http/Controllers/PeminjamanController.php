@@ -10,6 +10,17 @@ use Illuminate\Support\Facades\DB;
 
 class PeminjamanController extends Controller
 {
+    /**
+     * Whitelist kolom yang boleh di-sort user.
+     * - 'nama_barang' = sort by relasi barang
+     * - 'nama_peminjam_user' = sort by user.nama_lengkap
+     */
+    private const SORTABLE = [
+        'kode_peminjaman', 'nama_peminjam', 'jumlah_pinjam',
+        'tanggal_pinjam', 'tanggal_kembali_rencana', 'status',
+        'created_at', 'nama_barang', 'nama_peminjam_user',
+    ];
+
     public function index(Request $request)
     {
         $user  = auth()->user();
@@ -38,13 +49,34 @@ class PeminjamanController extends Controller
             $query->where('tanggal_pinjam', '<=', $request->tanggal_sampai);
         }
 
-        $peminjamans    = $query->latest()->paginate(15)->withQueryString();
+        $sort      = $request->get('sort', 'created_at');
+        $direction = $request->get('direction', 'desc');
+        $direction = in_array($direction, ['asc', 'desc']) ? $direction : 'desc';
+
+        if (in_array($sort, self::SORTABLE)) {
+            if ($sort === 'nama_barang') {
+                $query->leftJoin('barangs', 'peminjamans.barang_id', '=', 'barangs.id_barangs')
+                      ->leftJoin('kategoris', 'barangs.kategori_id', '=', 'kategoris.id_kategoris')
+                      ->select('peminjamans.*')
+                      ->orderBy('barangs.nama_barang', $direction);
+            } elseif ($sort === 'nama_peminjam_user') {
+                $query->leftJoin('users', 'peminjamans.user_id', '=', 'users.id_users')
+                      ->select('peminjamans.*')
+                      ->orderBy('users.nama_lengkap', $direction);
+            } else {
+                $query->orderBy($sort, $direction);
+            }
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $peminjamans    = $query->paginate(15)->withQueryString();
         $totalTerlambat = Peminjaman::where('status', 'terlambat')
                                     ->orWhere(fn($q) => $q->where('status','dipinjam')->where('tanggal_kembali_rencana','<',now()))
                                     ->count();
         $totalMenunggu  = Peminjaman::where('status', 'menunggu')->count();
 
-        return view('peminjaman.index', compact('peminjamans', 'totalTerlambat', 'totalMenunggu'));
+        return view('peminjaman.index', compact('peminjamans', 'totalTerlambat', 'totalMenunggu', 'sort', 'direction'));
     }
 
     public function create(Request $request)

@@ -26,6 +26,9 @@
     <div class="col-md-2"><input type="date" name="tanggal_dari"   value="{{ request('tanggal_dari') }}"   class="form-control"></div>
     <div class="col-md-2"><input type="date" name="tanggal_sampai" value="{{ request('tanggal_sampai') }}" class="form-control"></div>
     <div class="col-md-3"><button class="btn btn-outline-primary w-100">Filter</button></div>
+    {{-- Preserve sort saat filter berubah --}}
+    @if(request('sort'))<input type="hidden" name="sort"      value="{{ request('sort') }}">@endif
+    @if(request('direction'))<input type="hidden" name="direction" value="{{ request('direction') }}">@endif
 </form>
 
 <div class="card">
@@ -33,12 +36,12 @@
         <table class="table table-hover mb-0">
             <thead class="table-light">
                 <tr>
-                    <th>Kode Kembali</th>
-                    <th>Peminjaman</th>
+                    <th><x-sort field="kode_pengembalian" :sort="$sort" :direction="$direction">Kode Kembali</x-sort></th>
+                    <th><x-sort field="kode_peminjaman"    :sort="$sort" :direction="$direction">Peminjaman</x-sort></th>
                     <th>Barang</th>
-                    <th>Jumlah</th>
-                    <th>Tanggal</th>
-                    <th>Kondisi</th>
+                    <th><x-sort field="jumlah_kembali"     :sort="$sort" :direction="$direction">Jumlah</x-sort></th>
+                    <th><x-sort field="tanggal_kembali"    :sort="$sort" :direction="$direction">Tanggal</x-sort></th>
+                    <th><x-sort field="kondisi_kembali"    :sort="$sort" :direction="$direction">Kondisi</x-sort></th>
                     <th>Petugas</th>
                     <th>Aksi</th>
                 </tr>
@@ -67,5 +70,11 @@
     </div>
 </div>
 
-<div class="mt-3">{{ $pengembalians->links() }}</div>
+<div class="mt-3 d-flex justify-content-between align-items-center">
+    <small class="text-muted">
+        Urutan: <strong>{{ $sort }}</strong> ({{ $direction === 'asc' ? 'A→Z / kecil→besar' : 'Z→A / besar→kecil' }})
+        &middot; {{ $pengembalians->total() }} data
+    </small>
+    {{ $pengembalians->links() }}
+</div>
 @endsection

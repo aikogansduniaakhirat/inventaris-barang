@@ -11,6 +11,16 @@ use Illuminate\Support\Str;
 
 class BarangController extends Controller
 {
+    /**
+     * Whitelist kolom yang boleh di-sort oleh user (anti SQL injection di orderBy).
+     * 'nama_kategori' = sort by relasi (handled by leftJoin).
+     */
+    private const SORTABLE = [
+        'nama_barang', 'kode_barang', 'merk', 'jumlah',
+        'jumlah_tersedia', 'kondisi', 'lokasi', 'nilai', 'created_at',
+        'nama_kategori',
+    ];
+
     public function index(Request $request)
     {
         $query = Barang::with('kategori');
@@ -28,11 +38,29 @@ class BarangController extends Controller
             $query->where('lokasi', 'like', '%' . $request->lokasi . '%');
         }
 
-        $barangs   = $query->orderBy('nama_barang')->paginate(15)->withQueryString();
+        $sort      = $request->get('sort', 'nama_barang');
+        $direction = $request->get('direction', 'asc');
+        $direction = in_array($direction, ['asc', 'desc']) ? $direction : 'asc';
+
+        if (in_array($sort, self::SORTABLE)) {
+            if ($sort === 'nama_kategori') {
+                // Sort by relasi: leftJoin kategoris
+                $query->leftJoin('kategoris', 'barangs.kategori_id', '=', 'kategoris.id_kategoris')
+                      ->select('barangs.*')
+                      ->orderBy('kategoris.nama_kategori', $direction);
+            } else {
+                $query->orderBy($sort, $direction);
+            }
+        } else {
+            // Fallback ke default kalau sort param di-whitelist
+            $query->orderBy('nama_barang', 'asc');
+        }
+
+        $barangs   = $query->paginate(15)->withQueryString();
         $kategoris = Kategori::where('is_active', true)->orderBy('nama_kategori')->get();
         $lokasis   = Barang::distinct()->pluck('lokasi')->filter()->sort()->values();
 
-        return view('barang.index', compact('barangs', 'kategoris', 'lokasis'));
+        return view('barang.index', compact('barangs', 'kategoris', 'lokasis', 'sort', 'direction'));
     }
 
     public function create()
