@@ -1,0 +1,19 @@
+---
+title: "04 - Activity Diagram Validasi Peminjaman (Admin) - 1 Initial Node, Fork/Join"
+---
+flowchart TD
+    classDef admin fill:#dbeafe,stroke:#3b82f6
+    classDef system fill:#d1fae5,stroke:#10b981
+    classDef action fill:#fef3c7,stroke:#f59e0b
+    classDef fork fill:#fde68a,stroke:#d97706,stroke-width:3px
+
+    Start([Mulai]):::admin
+
+    Start --> ForkAwal((Fork)):::fork
+    ForkAwal --> A1[A1: Admin membuka menu&lt;br/&gt;Daftar Pengajuan]:::admin
+    ForkAwal --> S1[S1: Sistem siapkan & tampilkan&lt;br/&gt;data status 'menunggu']:::system
+    A1 --> JoinAwal((Join)):::fork
+    S1 --> JoinAwal
+    JoinAwal --> A2[A2: Admin memilih &lt;br/&gt;salah satu pengajuan]:::admin
+    A2 --> S2[S2: Sistem tampilkan&lt;br/&gt;detail pengajuan]:::system
+    S2 --> A3[A3: Admin meninja...truncated]

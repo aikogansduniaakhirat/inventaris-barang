@@ -1,0 +1,42 @@
+---
+title: "09 - Sequence Diagram Validasi Peminjaman (Admin)"
+---
+sequenceDiagram
+    autonumber
+    actor A as Admin
+    participant V as Browser/View
+    participant P as PeminjamanController
+    participant M as Peminjaman (Model)
+    participant B as Barang (Model)
+    participant DB as Database
+
+    A->>V: Buka menu Daftar Pengajuan
+    V->>P: GET /peminjaman?status=menunggu
+    P->>M: Peminjaman::where&lt;br/&gt;('status', 'menunggu')-&gt;get()
+    M->>DB: SELECT * FROM peminjamans&lt;br/&gt;WHERE status = 'menunggu'
+    DB-->>M: List pengajuan
+    M-->>P: Collection peminjaman
+    P-->>V: Tampilkan daftar pengajuan
+    A->>V: Klik salah satu pengajuan
+    V->>P: GET /peminjaman/{id}
+    P->>M: Peminjaman::find($id)
+    M-->>P: Data peminjaman
+    P-->>V: Tampilkan detail
+
+    A->>V: Klik Setujui / Tolak
+    V->>P: PATCH /peminjaman/{id}/status
+
+    alt Admin SETUJUI
+        P->>M: update status → 'dipinjam'
+        P->>B: Decrement&lt;br/&gt;jumlah_tersedia
+        B->>DB: UPDATE barangs&lt;br/&gt;SET jumlah_tersedia -= 1
+        DB-->>B: OK
+        B-->>P: Stok updated
+        P-->>V: Notif 'Peminjaman&lt;br/&gt;disetujui'
+    else Admin TOLAK
+        P->>M: update status → 'ditolak'
+        M->>DB: UPDATE peminjamans&lt;br/&gt;SET status = 'ditolak'
+        DB-->>M: OK
+        M-->>P: Status updated
+        P-->>V: Notif 'Peminjaman&lt;br/&gt;ditolak'
+    end

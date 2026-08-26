@@ -1,0 +1,80 @@
+---
+title: "11 - Component Diagram - Sistem Inventaris Barang (MVC + External)"
+---
+flowchart TB
+    classDef view fill:#dbeafe,stroke:#3b82f6,color:#000
+    classDef ctrl fill:#fef3c7,stroke:#f59e0b,color:#000
+    classDef model fill:#d1fae5,stroke:#10b981,color:#000
+    classDef ext fill:#f3e8ff,stroke:#a855f7,color:#000
+    classDef layer fill:none,stroke:none,color:#374151,font-weight:bold,font-size:16px
+
+    L1["&lt;b&gt;PRESENTATION LAYER&lt;/b&gt;"]:::layer
+    subgraph PRES[" "]
+        direction TB
+        Blade1["Blade Templates&lt;br/&gt;(resources/views/)"]:::view
+        Layout["Layouts&lt;br/&gt;(layouts/app.blade)"]:::view
+        Partials["Reusable Partials&lt;br/&gt;(x-sort, telepon-handler)"]:::view
+    end
+
+    L2["&lt;b&gt;BUSINESS LOGIC LAYER (Controller + Middleware)&lt;/b&gt;"]:::layer
+    subgraph CTRL[" "]
+        direction TB
+        MW["Middleware&lt;br/&gt;(Auth, Role)"]:::ctrl
+        AuthC["AuthController"]:::ctrl
+        UserC["UserController"]:::ctrl
+        KatC["KategoriController"]:::ctrl
+        BrgC["BarangController"]:::ctrl
+        PmjC["PeminjamanController"]:::ctrl
+        LapC["LaporanController"]:::ctrl
+    end
+
+    L3["&lt;b&gt;DATA ACCESS LAYER (Model + ORM)&lt;/b&gt;"]:::layer
+    subgraph DATA[" "]
+        direction TB
+        UsrM["User (Model)"]:::model
+        KatM["Kategori (Model)"]:::model
+        BrgM["Barang (Model)"]:::model
+        PmjM["Peminjaman (Model)"]:::model
+        Eloq["Eloquent ORM"]:::model
+        Mig["Migration Files"]:::model
+    end
+
+    L4["&lt;b&gt;EXTERNAL LIBRARIES&lt;/b&gt;"]:::layer
+    subgraph EXT[" "]
+        direction TB
+        Excel["Maatwebsite/Excel"]:::ext
+        PDF["DomPDF"]:::ext
+        Hash["Bcrypt Hasher"]:::ext
+    end
+
+    %% Presentation to Business
+    Blade1 --> Layout
+    Blade1 --> Partials
+    Blade1 --> MW
+    MW --> AuthC
+    Blade1 --> UserC
+    Blade1 --> KatC
+    Blade1 --> BrgC
+    Blade1 --> PmjC
+    Blade1 --> LapC
+
+    %% Business to Data
+    AuthC --> UsrM
+    UserC --> UsrM
+    KatC --> KatM
+    BrgC --> BrgM
+    PmjC --> PmjM
+    PmjC --> BrgM
+    LapC --> PmjM
+    LapC --> BrgM
+    UsrM --> Eloq
+    KatM --> Eloq
+    BrgM --> Eloq
+    PmjM --> Eloq
+    Eloq --> Mig
+
+    %% Business to External
+    LapC --> Excel
+    LapC --> PDF
+    UserC --> Hash
+    AuthC --> Hash

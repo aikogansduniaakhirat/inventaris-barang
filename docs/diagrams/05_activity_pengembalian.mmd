@@ -1,0 +1,30 @@
+---
+title: "05 - Activity Diagram Pengembalian Barang - 1 Decision + Fork/Join"
+---
+flowchart TD
+    classDef admin fill:#dbeafe,stroke:#3b82f6
+    classDef system fill:#d1fae5,stroke:#10b981
+    classDef action fill:#fef3c7,stroke:#f59e0b
+    classDef fork fill:#fde68a,stroke:#d97706,stroke-width:3px
+
+    Start([Mulai]):::admin
+
+    Start --> A1[A1: Admin membuka menu&lt;br/&gt;Peminjaman Aktif]:::admin
+    A1 --> S1[S1: Sistem tampilkan data&lt;br/&gt;peminjaman status 'dipinjam']:::system
+    S1 --> A2[A2: Admin menemukan data&lt;br/&gt;&amp; tekan tombol&lt;br/&gt;'Proses Pengembalian']:::admin
+    A2 --> Fork1((Fork)):::fork
+
+    %% Cabang kiri: update status peminjaman (dengan 1 decision)
+    Fork1 --> S2{S2: Cek&lt;br/&gt;tanggal_aktual vs&lt;br/&gt;tanggal_rencana?}:::action
+    S2 -->|Lewat rencana| S3[S3: Ubah status&lt;br/&gt;→ 'terlambat'&lt;br/&gt;+ catat keterlambatan]:::system
+    S2 -->|Tepat waktu| S4[S4: Ubah status&lt;br/&gt;→ 'dikembalikan']:::system
+
+    %% Cabang kanan: tambah stok barang
+    Fork1 --> S5[S5: Tambah&lt;br/&gt;jumlah_tersedia&lt;br/&gt;barang +1]:::system
+
+    %% Join
+    S3 --> Join1((Join)):::fork
+    S4 --> Join1
+    S5 --> Join1
+    Join1 --> S6[S6: Tampil notifikasi&lt;br/&gt;hasil ke Admin]:::system
+    S6 --> Selesai([Selesai]):::admin

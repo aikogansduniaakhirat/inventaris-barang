@@ -1,0 +1,41 @@
+---
+title: "10 - Sequence Diagram Pengembalian (Inline, dengan Catatan Keterlambatan)"
+---
+sequenceDiagram
+    autonumber
+    actor A as Admin
+    participant V as Browser/View
+    participant P as PeminjamanController
+    participant M as Peminjaman (Model)
+    participant B as Barang (Model)
+    participant DB as Database
+
+    A->>V: Buka Peminjaman Aktif
+    V->>P: GET /peminjaman?status=dipinjam
+    P->>M: Peminjaman::where&lt;br/&gt;('status', 'dipinjam')-&gt;get()
+    M-->>P: List peminjaman aktif
+    P-->>V: Tampilkan daftar
+    A->>V: Buka detail peminjaman
+    V->>P: GET /peminjaman/{id}
+    P-->>V: Tampilkan detail&lt;br/&gt;+ form pengembalian
+    A->>V: Isi form: tgl_aktual,&lt;br/&gt;kondisi, keterangan
+    A->>V: Klik 'Kembalikan'
+    V->>P: POST /peminjaman/{id}/kembalikan
+
+    P->>P: Validasi form
+    P->>M: Update peminjaman:&lt;br/&gt;- tgl_kembali_aktual&lt;br/&gt;- kondisi_kembali&lt;br/&gt;- keterangan_kembali
+    P->>P: Hitung selisih hari:&lt;br/&gt;tgl_aktual - tgl_rencana
+
+    alt Lewat rencana (terlambat)
+        P->>M: Update status → 'terlambat'
+        P->>M: Set catatan_terlambat:&lt;br/&gt;"Terlambat X hari"
+    else Tepat waktu
+        P->>M: Update status → 'dikembalikan'
+    end
+
+    P->>B: Increment&lt;br/&gt;jumlah_tersedia +1
+    B->>DB: UPDATE barangs&lt;br/&gt;SET jumlah_tersedia += 1
+    DB-->>B: OK
+    B-->>P: Stok restored
+    P-->>V: Notif 'Barang&lt;br/&gt;dikembalikan'
+    V-->>A: Tampil pesan

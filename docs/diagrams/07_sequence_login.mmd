@@ -1,0 +1,31 @@
+---
+title: "07 - Sequence Diagram Login"
+---
+sequenceDiagram
+    autonumber
+    actor P as Pengguna
+    participant V as Browser/View
+    participant A as AuthController
+    participant M as User Model
+    participant DB as Database (users)
+
+    P->>V: Akses halaman /login
+    V->>A: GET /login
+    A-->>V: Tampilkan view&lt;br/&gt;formulir login
+    P->>V: Isi email &amp; password
+    P->>V: Klik tombol Login
+    V->>A: POST /login (email, password)
+    A->>A: Validasi formulir&lt;br/&gt;(FormRequest)
+    A->>M: Auth::attempt(credentials)
+    M->>DB: SELECT * FROM users&lt;br/&gt;WHERE email = ?
+    DB-->>M: User data
+    M-->>A: Boolean (valid/invalid)
+
+    alt Kredensial valid
+        A->>A: Buat session
+        A-->>V: Redirect ke&lt;br/&gt;Dashboard sesuai role
+        V-->>P: Tampilkan Dashboard
+    else Kredensial invalid
+        A-->>V: Redirect back&lt;br/&gt;+ error message
+        V-->>P: Tampil pesan&lt;br/&gt;'Email/password salah'
+    end

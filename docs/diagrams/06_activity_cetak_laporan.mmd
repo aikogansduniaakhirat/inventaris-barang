@@ -1,0 +1,29 @@
+---
+title: "06 - Activity Diagram Cetak Laporan (Ekspor PDF/Excel) - 1 Decision + Fork/Join"
+---
+flowchart TD
+    classDef admin fill:#dbeafe,stroke:#3b82f6
+    classDef system fill:#d1fae5,stroke:#10b981
+    classDef action fill:#fef3c7,stroke:#f59e0b
+    classDef fork fill:#fde68a,stroke:#d97706,stroke-width:3px
+
+    Start([Mulai]):::admin
+
+    Start --> A1[A1: Admin membuka&lt;br/&gt;menu Laporan]:::admin
+    A1 --> S1[S1: Sistem tampilkan&lt;br/&gt;jenis laporan: Stok / Transaksi]:::system
+    S1 --> A2[A2: Admin pilih jenis&lt;br/&gt;+ tentukan filter&lt;br/&gt;(tanggal, kategori)]:::admin
+    A2 --> S2[S2: Sistem ambil data&lt;br/&gt;dari DB sesuai filter]:::system
+    S2 --> D1{D1: Data&lt;br/&gt;ditemukan?}:::action
+
+    %% Tidak ada data
+    D1 -->|Tidak| S3[S3: Tampil pesan&lt;br/&gt;'Tidak ada data'&lt;br/&gt;+ stop proses]:::system
+    S3 --> Selesai
+
+    %% Ada data - fork ekspor
+    D1 -->|Ya| Fork1((Fork)):::fork
+    Fork1 --> S4[S4: Proses ekspor&lt;br/&gt;sesuai format&lt;br/&gt;PDF: DomPDF&lt;br/&gt;Excel: Maatwebsite]:::system
+    Fork1 --> S5[S5: Siapkan&lt;br/&gt;file unduhan]:::system
+    S4 --> Join1((Join)):::fork
+    S5 --> Join1
+    Join1 --> S6[S6: File otomatis&lt;br/&gt;terunduh ke&lt;br/&gt;perangkat Admin]:::system
+    S6 --> Selesai([Selesai]):::admin

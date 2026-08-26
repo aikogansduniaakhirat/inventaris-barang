@@ -1,0 +1,38 @@
+---
+title: "08 - Sequence Diagram Ajukan Peminjaman (Staff)"
+---
+sequenceDiagram
+    autonumber
+    actor S as Staff/Guru
+    participant V as Browser/View
+    participant P as PeminjamanController
+    participant M as Peminjaman (Model)
+    participant B as Barang (Model)
+    participant DB as Database
+
+    S->>V: Buka menu Ajukan Peminjaman
+    V->>P: GET /peminjaman/create
+    P->>B: Barang::where&lt;br/&gt;('jumlah_tersedia', '&gt;', 0)-&gt;get()
+    B->>DB: SELECT * FROM barangs&lt;br/&gt;WHERE jumlah_tersedia &gt; 0
+    DB-->>B: List barang tersedia
+    B-->>P: Collection barang
+    P-->>V: Tampilkan katalog barang
+    S->>V: Pilih barang &amp; isi form&lt;br/&gt;(tgl_pinjam, tgl_rencana,&lt;br/&gt;jumlah, keperluan)
+    S->>V: Klik Ajukan
+    V->>P: POST /peminjaman (data form)
+
+    P->>P: Validasi FormRequest
+    P->>B: Cek stok real-time
+    B-->>P: jumlah_tersedia saat ini
+
+    alt Stok tidak cukup
+        P-->>V: Redirect back + error&lt;br/&gt;'Stok habis'
+        V-->>S: Tampil pesan error
+    else Stok cukup
+        P->>M: Peminjaman::create(data)
+        M->>DB: INSERT INTO peminjamans&lt;br/&gt;status = 'menunggu'
+        DB-->>M: OK
+        M-->>P: Peminjaman saved
+        P-->>V: Redirect + notif sukses
+        V-->>S: Tampil 'Pengajuan&lt;br/&gt;berhasil, menunggu&lt;br/&gt;validasi Admin'
+    end

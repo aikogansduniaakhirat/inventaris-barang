@@ -1,0 +1,35 @@
+---
+title: "01 - Use Case Diagram (Fish Level / Level 0)"
+---
+flowchart LR
+    classDef actor fill:#fef3c7,stroke:#f59e0b,color:#000,stroke-width:2px
+    classDef usecase fill:#dbeafe,stroke:#3b82f6,color:#000
+    classDef system fill:#f3f4f6,stroke:#374151,color:#000,stroke-width:2px
+
+    Admin((Admin)):::actor
+    Staff((Staff/Guru)):::actor
+
+    subgraph Sistem["&lt;b&gt;SISTEM INVENTARIS BARANG&lt;/b&gt;&lt;br/&gt;(Boundary)"]
+        direction TB
+        UC1[Login]:::usecase
+        UC2[Kelola Data Kategori]:::usecase
+        UC3[Kelola Data Barang]:::usecase
+        UC4[Lihat Katalog Barang]:::usecase
+        UC5[Ajukan Peminjaman]:::usecase
+        UC6[Validasi Peminjaman]:::usecase
+        UC7[Proses Pengembalian]:::usecase
+        UC8[Cetak Laporan]:::usecase
+        UC9[Kelola Data Pengguna]:::usecase
+    end
+
+    Admin ==> UC1
+    Admin ==> UC2
+    Admin ==> UC3
+    Admin ==> UC6
+    Admin ==> UC7
+    Admin ==> UC8
+    Admin ==> UC9
+
+    Staff ==> UC1
+    Staff ==> UC4
+    Staff ==> UC5

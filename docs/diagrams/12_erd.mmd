@@ -1,0 +1,60 @@
+---
+title: "12 - ERD - Sistem Inventaris Barang (PK: id_users, id_kategoris, id_barangs, id_peminjamans)"
+---
+erDiagram
+    USERS ||--o{ PEMINJAMANS : "mengajukan"
+    KATEGORIS ||--o{ BARANGS : "mengelompokkan"
+    BARANGS ||--o{ PEMINJAMANS : "dipinjam"
+
+    USERS {
+        bigint id_users PK
+        varchar name UK
+        varchar email UK
+        varchar nama_lengkap
+        varchar telepon
+        enum role
+        boolean is_active
+        varchar password
+    }
+
+    KATEGORIS {
+        bigint id_kategoris PK
+        varchar kode_kategori UK
+        varchar nama_kategori
+        text deskripsi
+        varchar warna
+        boolean is_active
+    }
+
+    BARANGS {
+        bigint id_barangs PK
+        varchar kode_barang UK
+        varchar nama_barang
+        bigint id_kategori FK
+        varchar merk
+        int jumlah
+        int jumlah_tersedia
+        varchar satuan
+        varchar lokasi
+        enum kondisi
+        decimal nilai
+        varchar foto
+        text keterangan
+    }
+
+    PEMINJAMANS {
+        bigint id_peminjamans PK
+        varchar kode_peminjaman UK
+        bigint id_barang FK
+        bigint id_user FK
+        varchar nama_peminjam
+        varchar instansi_peminjam
+        int jumlah_pinjam
+        date tanggal_pinjam
+        date tanggal_kembali_rencana
+        date tanggal_kembali_aktual
+        enum kondisi_kembali
+        text keterangan_kembali
+        text catatan_terlambat
+        enum status
+    }

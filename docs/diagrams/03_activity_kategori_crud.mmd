@@ -1,0 +1,47 @@
+---
+title: "03 - Activity Diagram Kelola Data Kategori (CRUD) - Fork Node"
+---
+flowchart TD
+    classDef admin fill:#dbeafe,stroke:#3b82f6
+    classDef system fill:#d1fae5,stroke:#10b981
+    classDef action fill:#fef3c7,stroke:#f59e0b
+    classDef fork fill:#fde68a,stroke:#d97706,stroke-width:3px
+
+    Start([Mulai]):::admin
+
+    Start --> A1[A1: Admin membuka&lt;br/&gt;menu Kategori]:::admin
+    A1 --> S1[S1: Sistem tampilkan&lt;br/&gt;seluruh data kategori]:::system
+    S1 --> A2{A2: Admin pilih&lt;br/&gt;aksi}:::action
+
+    %% AKSI TAMBAH (fork/join, no decision)
+    A2 -->|Tambah| A3[A3: Isi formulir tambah]:::admin
+    A3 --> Fork1((Fork)):::fork
+    Fork1 --> S2[S2: Validasi data&lt;br/&gt;formulir]:::system
+    Fork1 --> S3[S3: Cek unik&lt;br/&gt;kode_kategori]:::system
+    S2 --> Join1((Join)):::fork
+    S3 --> Join1
+    Join1 --> S4[S4: Simpan data&lt;br/&gt;kategori baru ke DB]:::system
+    S4 --> S5[S5: Tampil notifikasi&lt;br/&gt;sukses]:::system
+    S5 --> Selesai
+
+    %% AKSI EDIT (fork/join)
+    A2 -->|Edit| A4[A4: Isi formulir edit]:::admin
+    A4 --> Fork2((Fork)):::fork
+    Fork2 --> S6[S6: Validasi&lt;br/&gt;perubahan data]:::system
+    Fork2 --> S7[S7: Ambil data lama&lt;br/&gt;dari DB]:::system
+    S6 --> Join2((Join)):::fork
+    S7 --> Join2
+    Join2 --> S8[S8: Simpan perubahan&lt;br/&gt;ke DB]:::system
+    S8 --> S9[S9: Tampil notifikasi&lt;br/&gt;sukses]:::system
+    S9 --> Selesai
+
+    %% AKSI HAPUS (1 decision - validasi kondisional)
+    A2 -->|Hapus| S10[S10: Tampil konfirmasi&lt;br/&gt;hapus]:::system
+    S10 --> A5{A5: Admin&lt;br/&gt;konfirmasi?}:::action
+    A5 -->|Tidak| Selesai
+    A5 -->|Ya| S11{S11: Kategori&lt;br/&gt;masih dipakai&lt;br/&gt;barang?}:::action
+    S11 -->|Ya| S12[S12: Tampil pesan&lt;br/&gt;tidak dapat dihapus]:::system
+    S12 --> Selesai
+    S11 -->|Tidak| S13[S13: Soft delete&lt;br/&gt;data kategori]:::system
+    S13 --> S14[S14: Tampil notifikasi&lt;br/&gt;sukses]:::system
+    S14 --> Selesai([Selesai]):::admin

@@ -1,0 +1,25 @@
+---
+title: "02 - Activity Diagram Login"
+---
+flowchart TD
+    classDef admin fill:#dbeafe,stroke:#3b82f6
+    classDef system fill:#d1fae5,stroke:#10b981
+    classDef action fill:#fef3c7,stroke:#f59e0b
+
+    Start([Mulai]):::admin
+
+    Start --> A1[A1: Pengguna membuka&lt;br/&gt;halaman login]:::admin
+    A1 --> S1[S1: Sistem tampilkan&lt;br/&gt;formulir login]:::system
+    S1 --> A2[A2: Pengguna mengisi&lt;br/&gt;email dan password]:::admin
+    A2 --> S2[S2: Sistem validasi&lt;br/&gt;kelengkapan formulir]:::system
+    S2 -->|Tidak Lengkap| S3[S3: Tampil pesan&lt;br/&gt;validasi error]:::system
+    S3 --> A2
+    S2 -->|Lengkap| S4[S4: Sistem verifikasi&lt;br/&gt;kredensial ke DB]:::system
+    S4 -->|Tidak Valid| S5[S5: Tampil pesan&lt;br/&gt;login gagal]:::system
+    S5 --> A2
+    S4 -->|Valid| S6[S6: Sistem buat session&lt;br/&gt;pengguna]:::system
+    S6 --> S7{S7: Cek role&lt;br/&gt;pengguna}:::action
+    S7 -->|Admin| S8[S8: Redirect ke&lt;br/&gt;Dashboard Admin]:::system
+    S7 -->|Staff| S9[S9: Redirect ke&lt;br/&gt;Dashboard Staff]:::system
+    S8 --> Selesai
+    S9 --> Selesai([Selesai]):::admin
