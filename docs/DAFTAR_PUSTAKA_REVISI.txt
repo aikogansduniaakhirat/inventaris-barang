@@ -1,0 +1,115 @@
+DAFTAR PUSTAKA (Revisi APA 7th — Siap Copy-Paste ke Word)
+
+================================================================================
+CARA PAKAI:
+1. Buka dokumen skripsi
+2. Hapus semua entri daftar pustaka yang lama
+3. Copy SEMUA teks di bawah ini (mulai dari "Anis, Y." sampai "...4322.")
+4. Paste di halaman daftar pustaka
+5. Format Word:
+   - Hanging indent: 1,27 cm
+   - Line spacing: 1,5
+   - Font: Times New Roman 12pt
+6. Simpan file Word
+================================================================================
+
+
+Anis, Y., Wahyudi, E. N., & Kurniawan, H. C. (2024). Metode Waterfall dalam Pengembangan Sistem Inventaris Guna Meningkatkan Efisiensi Manajemen Stok Barang. Jurnal Teknologi dan Sistem Informasi Bisnis, 6(2), 329–338. https://doi.org/10.47233/jteksis.v6i2.1351
+
+Annisa, R., Rahayuningsih, P. A., & Anna, A. (2023). Perancangan Sistem Informasi Inventaris Sarana dan Prasarana Sekolah Berbasis Web. Infotek: Jurnal Informatika dan Teknologi, 6(1), 60–70. https://doi.org/10.29408/jit.v6i1.7356
+
+Arif Rahman, M. K. P. A., & Satriandi. (2026). Rancang Bangun Sistem Inventaris Sekolah Berbasis Website Dengan Metode Waterfall. Jurnal Publikasi Ilmu Komputer dan Multimedia, 5(1), 62–72. https://doi.org/10.55606/jupikom.v5i1.6146
+
+Christian, C., & Voutama, A. (2024). Inventaris Berbasis Website. Jurnal Informatika dan Teknik Elektro Terapan, 12(2), 1500–1509.
+
+Danovella, M., Jarwo, Efendi, A., & Nazarudin, Z. (2024). Implementasi Sistem Informasi Manajemen Inventaris Berbasis WEB Menggunakan Framework Laravel. Jurnal Aplikasi Sistem dan Teknik Informatika Pomosda (JASTIP), 2(01), 1–8.
+
+Dwi Putri, R., & Andryani, R. (2022). Rancang Bangun Sistem Informasi Inventaris Barang pada SMP Negeri 01 Runjung Agung Berbasis Website. https://doi.org/10.29100/jipi.v7i4.3201
+
+Fowler, M. (2004). UML Distilled: A Brief Guide to the Standard Object Modeling Language (3rd ed.). Addison-Wesley.
+
+Hasanah, F. N., & Untari, R. S. (2020). Buku Ajar Rekayasa Perangkat Lunak. UMSIDA Press. https://doi.org/10.21070/2020/978-623-6833-89-6
+
+Hidayatullah, P., & Kawistara, J. K. (2017). Pemrograman Web. Informatika Bandung.
+
+Jamaliyah, I. (2022). Perbandingan Metode Testing Antara. 8(2), 105–114.
+
+Kadim, A. A., Hadjaratie, L., & Muthia, M. (2023). Implementasi Framework Laravel Dalam Pembuatan Sistem Pencatatan Notula Berbasis Website. J. Sistem Info. Bisnis, 13(1), 45–51. https://doi.org/10.21456/vol13iss1pp45-51
+
+Lubis, A. S., & Ginting, M. P. A. (2024). Pengujian Aplikasi Berbasis Web Data SKA Menggunakan Metode Black Box Testing. Cosmic Jurnal Teknik, 1(1), 41–48.
+
+Muarif, A., & Tantri, A. H. (2025). Perancangan Sistem Informasi Inventaris Berbasis Web Menggunakan Permodelan UML. Journal of Information System and Application Development, 3(2), 112–118. https://doi.org/10.26905/jisad.v3i2.16127
+
+Munawar. (2018). Analisis Perancangan Sistem Berorientasi Objek dengan UML (Unified Modeling Language). Informatika Bandung.
+
+Munir, R., & Lidya, L. (2016). Algoritma dan Pemrograman dalam Bahasa Pascal, C, dan C++. Informatika Bandung.
+
+Murdani, D., Oktafiani, R. J., & Anggraini, F. (2023). Sistem Informasi Inventaris Barang Berbasis Web pada SMA Budi Mulia Utama. Universitas Saintek Muhammadiyah, 9(2), 24–36. https://doi.org/10.56459/jv.v9i2.71
+
+Perdana, A. L., El Fazza, F., & Agung, A. (2025). Rancang Bangun Sistem Informasi Inventaris Barang Berbasis Web pada Bengkel Rama Motor Menggunakan Laravel, 724–732.
+
+Pressman, R. S., & Maxim, B. R. (2020). Software Engineering: A Practitioner's Approach (9th ed.). McGraw-Hill Education.
+
+Putri, N. A., Larasati, P. D., Mulya, M. F., & Anwar, S. (2023). Sistem Informasi Inventaris Barang Berbasis Web menggunakan Codeigniter pada Pusat Pendidikan dan Pelatihan Pajak (PPPP). Jurnal SISKOM-KB (Sistem Komputer dan Kecerdasan Buatan), 7(1), 62–72. https://doi.org/10.47970/siskom-kb.v7i1.475
+
+Shalahuddin, M., & Rosa, A. (2016). Rekayasa Perangkat Lunak: Terstruktur dan Berorientasi Objek. Informatika Bandung.
+
+Sidik, B. (2020). Pemrograman Database MySQL dengan PHP 7. Informatika Bandung.
+
+Sidik, M. P., Supriatman, A., Ramadhan, T. I., & Ramadhan, T. I. (2024). Rancang Bangun Sistem Informasi Inventaris Barang Menggunakan Metode Agile di Sekolah Menengah Kejuruan Bina Putera Nusantara. Jurnal Informatika dan Teknik Elektro Terapan, 12(3). https://doi.org/10.23960/jitet.v12i3.4370
+
+Sinlae, F., Maulana, I., Setiyansyah, F., & Ihsan, M. (2024). Pengenalan Pemrograman Web: Pembuatan Aplikasi Web Sederhana Dengan PHP dan MYSQL. Jurnal Siber Multi Disiplin, 2(2), 68–82. https://doi.org/10.38035/jsmd.v2i2.156
+
+Sommerville, I. (2015). Software Engineering (10th ed.). Pearson.
+
+Usnaini, M., Yasin, V., & Sianipar, A. Z. (2021). Perancangan sistem informasi inventarisasi aset berbasis web menggunakan metode waterfall. Jurnal Manajemen Informatika Jayakarta, 1(1), 36. https://doi.org/10.52362/jmijayakarta.v1i1.415
+
+Wijaya, P. H., & Beeh, Y. R. (2023). Perancangan Sistem Informasi Gudang Jamu Semar Berbasis Web Menggunakan Framework Laravel. Jurnal Teknik Informatika dan Sistem Informasi, 10(1), 2407–4322. https://doi.org/10.35957/jatisi.v10i1.2671
+
+
+================================================================================
+CATATAN UNTUK APLIKASI ITALIC DI WORD:
+================================================================================
+Setelah paste, lakukan hal berikut untuk setiap entri:
+
+1. JUDUL BUKU (misalnya "Buku Ajar Rekayasa Perangkat Lunak"):
+   - Block judul buku
+   - Tekan Ctrl+I
+   - Font menjadi italic
+
+2. NAMA JURNAL + VOLUME (misalnya "Jurnal Teknologi..., 6(2)"):
+   - Block nama jurnal + volume
+   - Tekan Ctrl+I
+   - Font menjadi italic
+
+3. CONTOH ENTRI YANG BUTUH ITALIC:
+
+   Hasanah, F. N., & Untari, R. S. (2020). [Buku Ajar Rekayasa Perangkat Lunak]→italic. UMSIDA Press. https://doi.org/...
+
+   Annisa, R., Rahayuningsih, P. A., & Anna, A. (2023). Perancangan Sistem Informasi Inventaris... [Infotek: Jurnal Informatika dan Teknologi]→italic, [6]→italic(1), 60–70. https://doi.org/...
+
+================================================================================
+DRAFT YANG SUDAH DI-FORMAT (siap pakai):
+================================================================================
+File ini versi plain text. Untuk versi dengan format italic otomatis,
+buka Microsoft Word, paste, lalu block bagian yang perlu di-italic dan tekan Ctrl+I.
+
+DAFTAR REFERENSI ITALIC YANG PERLU DITandai:
+
+1. "Buku Ajar Rekayasa Perangkat Lunak" (Hasanah & Untari)
+2. "Pemrograman Web" (Hidayatullah & Kawistara)
+3. "UML Distilled: A Brief Guide to the Standard Object Modeling Language" (Fowler)
+4. "Analisis Perancangan Sistem Berorientasi Objek dengan UML" (Munawar)
+5. "Algoritma dan Pemrograman dalam Bahasa Pascal, C, dan C++" (Munir & Lidya)
+6. "Buku Ajar Rekayasa Perangkat Lunak" (Hasanah & Untari) - duplicate, sudah di #1
+7. "Rekayasa Perangkat Lunak: Terstruktur dan Berorientasi Objek" (Shalahuddin & Rosa)
+8. "Pemrograman Database MySQL dengan PHP 7" (Sidik, B.)
+9. "Rancang Bangun Sistem Informasi Inventaris Barang pada SMP..." (Dwi Putri)
+10. "Sistem Informasi Inventaris Barang Berbasis Web pada SMA Budi Mulia Utama" (Murdani)
+11. "Rancang Bangun Sistem Informasi Inventaris Barang Berbasis Web pada Bengkel Rama Motor..." (Perdana)
+12. "Rancang Bangun Sistem Informasi Inventaris Barang Menggunakan Metode Agile di SMK..." (Sidik dkk.)
+13. "Software Engineering: A Practitioner's Approach" (Pressman)
+14. "Software Engineering" (Sommerville)
+
++ SEMUA NAMA JURNAL (lihat entri di atas) → italic
++ VOLUME JURNAL (nomor setelah nama jurnal) → italic
