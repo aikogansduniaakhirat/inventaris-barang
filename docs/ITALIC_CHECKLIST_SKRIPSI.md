@@ -1,287 +1,267 @@
-# DAFTAR ISTILAH ASING UNTUK ITALIC — Skripsi Aikoo
+# DAFTAR ISTILAH ASING UNTUK ITALIC — Skripsi Aikoo (LENGKAP)
 
 > **Hasil scan otomatis** dari `Laporan Skripsi - Mahdy Saifan 17221034.docx` (2447 paragraf, 161019 karakter)
-> **102 istilah unik, 1414 total kemunculan**
-> **Cakupan**: 12 kategori (Framework, Database, Web, UML, Bahasa, Testing, Software, Network, Tools, Method, DevOps, Tipe Data)
+> **177 istilah unik, 2298 total kemunculan**
+> **Cakupan**: 14 kategori
 
 ---
 
 ## RINGKASAN KILAT (Copy-paste ke Word Find & Replace)
 
-Paling sering muncul → paling penting di-italic:
+**Top 25 Prioritas** (1150+ dari 2298 = 50%):
 
 | Frek | Istilah |
 |---|---|
+| 193× | *Admin* (konteks: role, diagram, login) |
+| 122× | *Use Case* |
+| 108× | *PHP* |
 | 100× | *Web* |
 | 92× | *Laravel* |
-| 66× | *Login* |
-| 66× | *PHP* |
-| 61× | *Use Case* / *use case* |
+| 83× | *PDF* |
+| 61× | *Login* |
 | 43× | *Database* |
-| 40× | *framework* |
+| 43× | *User* (konteks UML/role) |
+| 42× | *UML* |
 | 39× | *MySQL* |
 | 38× | *Server* |
+| 36× | *CRUD* |
+| 36× | *Delete* |
 | 35× | *Browser* |
+| 34× | *HTML* |
 | 33× | *Sequence Diagram* |
-| 33× | *Dashboard* |
+| 32× | *Dashboard* |
+| 32× | *CSS* |
+| 32× | *XAMPP* |
 | 31× | *Activity Diagram* |
+| 30× | *LRS* |
 | 29× | *Query* |
+| 28× | *ERD* |
+| 24× | *View* (konteks MVC) |
 
 ---
 
-## 102 ISTILAH LENGKAP (Per Kategori)
+## 177 ISTILAH LENGKAP (Per Kategori)
 
-### A. FRAMEWORK & TOOLS LARAVEL (15 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 1 | *Laravel* | 92 |
-| 2 | *Blade* | 14 |
-| 3 | *Eloquent* | 11 |
-| 4 | *Artisan* | 13 |
-| 5 | *Middleware* | 13 |
-| 6 | *Routing* | 7 |
-| 7 | *DomPDF* | 12 |
-| 8 | *Maatwebsite* | 10 |
-| 9 | *Library* | 9 |
-| 10 | *Template* | 7 |
-| 11 | *Engine* | 7 |
-| 12 | *Migration* | 2 |
-| 13 | *Repository* | 4 |
-| 14 | *Bcrypt* | 7 |
-| 15 | *Token* / *Session* / *Cookie* | 8/8/? |
+### A. BAHASA PEMROGRAMAN & STANDAR (6 istilah)
+PHP (108×), HTML (34×), CSS (32×), JavaScript (2×), Python (2×), Java (1×), SQL (9×)
 
-### B. BAHASA PEMROGRAMAN & STANDAR (6 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 16 | *PHP* | 66 |
-| 17 | *HTML* | 17 |
-| 18 | *CSS* | 16 |
-| 19 | *JavaScript* | 2 |
-| 20 | *SQL* | 5 |
-| 21 | *MySQL* | 39 |
+### B. FRAMEWORK & LIBRARY (22 istilah)
+Laravel (92×), Blade (14×), Eloquent (11×), Artisan (13×), Middleware (11×), Routing (7×), Migration (2×), Composer (8×), CodeIgniter (3×), Bootstrap (7×), Tailwind (11×), Vite (6×), NPM (4×), DomPDF (12×), Maatwebsite (10×), Library (9×), Bcrypt (7×), Authentication (2×), Authentication (2×), Alpine (1×), Package (2×), JavaScript (2×)
 
-### C. ARSITEKTUR & PATTERN (7 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 22 | *Model-View-Controller* (MVC) | 14 |
-| 23 | *Object-Oriented* | 1 |
-| 24 | *Class* | 16 |
-| 25 | *Object* | 1 |
-| 26 | *Method* | 10 |
-| 27 | *Function* | 3 |
-| 28 | *Interface* | 7 |
-| 29 | *Abstract* | 1 |
+### C. DATABASE & TOOLS (15 istilah)
+MySQL (39×), XAMPP (32×), phpMyAdmin (10×), Apache (21×), MariaDB (4×), Nginx (1×), SQLite (1×), Database (43×), Query (29×), Primary Key (7×), Foreign Key (10×), Varchar (18×), Bigint (7×), Timestamp (10×), Nullable (15×), Default (9×), Boolean (2×), Enum (4×), Auto Increment (4×), Increment (5×), Auto (5×), Text (5×), Date (3×), Decimal (1×), Trigger (1×)
 
-### D. UML & DIAGRAM (10 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 30 | *Use Case* | 61 |
-| 31 | *use case* | 61 |
-| 32 | *Activity Diagram* | 31 |
-| 33 | *Sequence Diagram* | 33 |
-| 34 | *Class Diagram* | 9 |
-| 35 | *Component Diagram* | 1 |
-| 36 | *Deployment Diagram* | 7 |
-| 37 | *Entity Relationship Diagram* (ERD) | 8+14 |
-| 38 | *LRS* (*Logical Record Structure*) | 15 |
-| 39 | *UML* (*Unified Modeling Language*) | 21+3 |
-| 40 | *Pseudocode* | 9 |
-| 41 | *Swimlane* | 8 |
-| 42 | *Decision Node* | 2 |
-| 43 | *Fish Level* | - |
-| 44 | *Fork Node* / *Join Node* | - |
+### D. WEB & INTERNET (38 istilah)
+Web (100×), Website (11×), Online (-), Offline (1×), Login (61×), Logout (1×), Register (1×), Dashboard (32×), Header (1×), Footer (-), Sidebar (1×), Menu (21×), Modal (1×), Download (5×), Upload (-), Export (6×), Import (-), Backup (4×), Restore (1×), Filter (17×), Search (-), URL (8×), Endpoint (3×), Route (2×), Routes (1×), API (-), REST (-), HTTP (8×), HTTPS (19×), Browser (35×), Server (38×), Client (4×), Responsive (1×), Frontend (2×), Backend (2×), Stack (6×), Tag (1×), Node (18×)
 
-### E. DATABASE (10 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 45 | *Database* | 43 |
-| 46 | *Query* | 29 |
-| 47 | *Primary Key* | 7 |
-| 48 | *Foreign Key* | 10 |
-| 49 | *Unique Key* | - |
-| 50 | *Auto Increment* | 4 |
-| 51 | *Random Access* | 4 |
-| 52 | *RDBMS* | - |
-| 53 | *Relational Database Management System* | - |
+### E. UML & DIAGRAM (24 istilah)
+UML (42×), Unified Modeling Language (3×), Use Case (122×), Use Case Diagram (10×), Activity Diagram (31×), Sequence Diagram (33×), Class Diagram (9×), Component Diagram (1×), Deployment Diagram (7×), Entity Relationship Diagram (8×), ERD (28×), LRS (30×), Logical Record Structure (9×), Pseudocode (9×), Swimlane (8×), Decision Node (2×), Initial Node (1×), Final Node (1×), Actor (1×), Boundary (1×), Pre-condition (10×), Post-condition (10×), Loop (1×), Optional (1×)
 
-### F. TIPE DATA (6 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 54 | *Varchar* | 18 |
-| 55 | *Bigint* | 7 |
-| 56 | *Timestamp* | 10 |
-| 57 | *Enum* | 4 |
-| 58 | *Boolean* | 3 |
-| 59 | *Decimal* | 1 |
-| 60 | *Nullable* | 15 |
-| 61 | *Default* | 9 |
+### F. TESTING (8 istilah)
+Testing (14×), Test Case (-), Test (1×), Black Box (14×), White Box (1×), Bug (1×), Error (9×), Validation (4×), Verification (-)
 
-### G. WEB & INTERNET (8 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 62 | *Web* | 100 |
-| 63 | *Website* | 11 |
-| 64 | *Online* | - |
-| 65 | *Offline* | 1 |
-| 66 | *Login* | 66 |
-| 67 | *Logout* | 1 |
-| 68 | *Dashboard* | 33 |
-| 69 | *Header* / *Footer* / *Sidebar* | 1/0/1 |
-| 70 | *Download* / *Upload* | 7/- |
-| 71 | *Export* / *Import* | 6/- |
-| 72 | *Backup* / *Restore* | 4/1 |
-| 73 | *URL* | 4 |
-| 74 | *HTTPS* / *HTTP* | 18/4 |
+### G. ARSITEKTUR & PATTERN (25 istilah)
+MVC (22×), Model-View-Controller (7×), OOP (-), ORM (18×), Object-Oriented (1×), Object (1×), Class (11×), Method (10×), Function (-), Property (-), Interface (7×), Abstract (1×), Implementation (2×), Module (-), Namespace (-), Workflow (1×), Activity (-), Command (1×), Insert (6×), Select (6×), Update (21×), Delete (36×), Read (6×), Create (13×), Path (2×), Control (4×)
 
-### H. NETWORK & INFRA (5 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 75 | *Server* | 38 |
-| 76 | *Client* | 4 |
-| 77 | *Browser* | 35 |
+### H. CRUD & HTTP METHOD (15 istilah)
+CRUD (36×), Create (13×), Read (6×), Update (21×), Delete (36×), GET (3×), POST (11×), OPTIONS (1×)
 
-### I. TESTING (4 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 78 | *Black Box* | 14 |
-| 79 | *White Box* | 1 |
-| 80 | *Testing* | 14 |
-| 81 | *Test Case* | - |
+### I. METODE PENGEMBANGAN (5 istilah)
+Waterfall (17×), Agile (4×), DevOps (-), CI/CD (-), SDLC (-)
 
-### J. SOFTWARE ENGINEERING (5 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 82 | *Waterfall* | 17 |
-| 83 | *Software* | 14 |
-| 84 | *Hardware* | 5 |
-| 85 | *CRUD* | 18 |
-| 86 | *Agile* | 4 |
-| 87 | *DevOps* | - |
-| 88 | *Scrum* / *Sprint* / *Backlog* | - |
+### J. VERSION CONTROL & TOOLS (15 istilah)
+Git (5×), GitHub (3×), Commit (1×), Push (1×), Clone (2×), Repository (4×), Editor (2×), VS Code (6×), Visual Studio Code (1×), Build (1×), Version (1×), Deploy (3×), CLI (6×), IDE (-), GUI (-)
 
-### K. CRUD OPERATIONS (4 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 89 | *Create* | 14 |
-| 90 | *Read* | 6 |
-| 91 | *Update* | 23 |
-| 92 | *Delete* | 19 |
+### K. INFRA & HARDWARE (10 istilah)
+Hardware (5×), Software (14×), RAM (2×), LAN (4×), Cloud (2×), Linux (1×), Windows (1×), Ubuntu (1×), Standar (3×), Open-source (3×)
 
-### L. VERSION CONTROL & TOOLS (10 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 93 | *Git* | 5 |
-| 94 | *GitHub* | 3 |
-| 95 | *Commit* | 1 |
-| 96 | *Push* | 1 |
-| 97 | *Clone* | 2 |
-| 98 | *Branch* / *Merge* / *Pull* | - |
-| 99 | *CLI* | 3 |
-| 100 | *IDE* | - |
-| 101 | *GUI* | - |
-| 102 | *Deploy* / *Build* | 3/1 |
+### L. NOTIFIKASI & AUTENTIKASI (4 istilah)
+Notifikasi (11×), Validasi (32×), Autentikasi (16×), Otorisasi (1×), Verifikasi (2×)
 
-### M. LAIN-LAIN (5 istilah)
-| # | Istilah | Frek |
-|---|---|---|
-| 103 | *Stack* | 6 |
-| 104 | *Frontend* / *Backend* | 2/2 |
-| 105 | *API* | - |
-| 106 | *Bug* | 1 |
-| 107 | *Version* | 1 |
-| 108 | *Notifikasi* / *Verifikasi* | 11/2 |
-| 109 | *Pattern* | - |
+### M. FILE FORMAT (4 istilah)
+PDF (83×), XLSX (6×), CSV (-), JSON (-), XML (-)
+
+### N. ROLE & USER (2 istilah)
+Admin (193×), User (43×)
+
+### O. LAIN-LAIN
+Entity (9×), Deployment (8×), Continuous (-), Migration (2×)
 
 ---
 
-## CARA PAKAI DI WORD (Step by Step)
+## CARA PAKAI DI WORD
 
-### Step 1: Find & Replace (batch)
+### Step 1: Find & Replace (batch — urut dari frekuensi tertinggi)
 
-Di Word, tekan **Ctrl+H** lalu:
+Di Word, tekan **Ctrl+H**:
 
 ```
-Find what: Use Case
-Replace with: *Use Case*  ← block + Ctrl+I, atau ketik manual
+Find what: Admin
+Replace with: *Admin*  (Ctrl+I)
 Replace All
 ```
 
-**Ulangi** untuk tiap istilah (100+). Bisa diurutkan dari frekuensi tertinggi.
+Ulangi untuk tiap istilah.
 
-### Step 2: Yang Perlu Di-skip (TIDAK italic)
+### Step 2: Yang TIDAK PERLU italic (skip)
 
 | Jangan italic | Alasan |
 |---|---|
 | *Data* | Indonesia umum |
-| *Email* / *Password* / *Username* | Sudah jadi istilah umum |
-| *User* / *Admin* / *Staff* | Indonesia |
-| *File* / *Folder* / *Path* | Indonesia |
-| *Field* / *Table* / *Record* / *Row* / *Column* | Ambigous (bisa Indonesia) |
+| *Email* / *Password* / *Username* | Sudah diserap |
+| *Petugas* / *Siswa* / *Guru* | Indonesia |
+| *File* / *Folder* | Indonesia |
 | *Inventaris* / *Kategori* / *Peminjaman* | Indonesia |
-| *Validasi* | Indonesia |
-| *Total* | Indonesia umum |
-| *ID* / *URL* di tengah code/path | Bagian dari identifier |
-| *php* / *mysql* di code block | Code identifier |
-| Kata dalam *code* / *source code* / *command* | Code identifier |
+| *Total* / *Subtotal* | Indonesia |
+| *Text* (kecuali *Plain Text* konteks) | Ambigu |
+| *Menu* (kecuali *dropdown menu* jelas UI) | Ambigu |
+| *Node* (kecuali *Node.js* jelas software) | Ambigu |
+| *Entity* (kecuali konteks UML) | Ambigu |
+| *Standar* | Indonesia |
+| *Path* (kecuali `Path file:` konteks IT) | Ambigu |
+| Kata dalam code block / source code / command | Code identifier |
+| URL/email/file path | Bukan kata |
+| Nama orang / tempat | Bukan istilah teknologi |
+| Akronim nama Indonesia: SMAN, SMA, DKI, dll | Nama institusi |
+| Kata Latin: dkk., et al., al. | Latin |
 
-### Step 3: Yang Perlu Di-italic TAPI HATI-HATI
+### Step 3: Yang PERLU Di-italic TAPI HATI-HATI Konteks
 
-| Istilah | Aturan |
+| Istilah | Italic HANYA kalau konteks |
 |---|---|
-| *Model* / *View* / *Controller* | Italic HANYA kalau konteksnya jelas MVC/Laravel pattern. Kalau konteks "model data" → tidak italic. |
-| *Update* | Italic HANYA kalau konteksnya jelas "software update" atau "update data di form". Kalau konteks lain → tidak. |
-| *Interface* | Italic HANYA kalau konteks OOP/programming. Kalau konteks "user interface" → tidak. |
-| *Method* | Italic HANYA kalau konteks OOP. |
-| *Function* | Italic HANYA kalau konteks OOP/PHP. |
-| *Class* | Italic HANYA kalau konteks OOP. Kalau konteks "kelas" (ruangan) → tidak. |
-| *Framework* | Selalu italic (lowercase: *framework*). |
-| *Use Case* | KALAU judul diagram / nama formal → italic. Kalau "use case" di tengah kalimat → tetap italic (kata benda asing). |
-| *Web* | Selalu italic. |
-| *MySQL* | Selalu italic (nama proprietary software). |
+| *Model* | OOP / MVC / Laravel pattern. Bukan "model" (contoh/contoh-contoh). |
+| *View* | MVC / Laravel pattern. Bukan "view" (pandangan). |
+| *Controller* | MVC. Bukan "pengontrol". |
+| *Class* | OOP. Bukan "kelas" (ruangan). |
+| *Object* | OOP. Bukan "objek" (benda). |
+| *Method* | OOP. Bukan "metode" (cara). |
+| *Function* | OOP/PHP. Bukan "fungsi". |
+| *Property* | OOP. |
+| *Interface* | OOP / "user interface". |
+| *Update* | Software/data update. Bukan "pembaruan". |
+| *Delete* | CRUD/software. |
+| *Insert* | SQL/CRUD. |
+| *Select* | SQL/UI dropdown. |
+| *Read* | CRUD/file. |
+| *Create* | CRUD. |
+| *Node* | *Node.js* / *Initial Node* (UML). Bukan "simpul". |
+| *Entity* | UML ERD. |
+| *Command* | *Command Line* / *Command Pattern*. |
+| *Standar* | "Standar bahasa markup" boleh italic. "Standar kompetensi" → tidak. |
+| *Path* | "Path file" boleh italic. "Jalur" → tidak. |
+| *Build* | Software build/deploy. |
+| *Version* | Software version. |
+| *Commit* | Git commit. |
+| *Push* | Git push. |
+| *Cloud* | Cloud computing. Bukan "awan". |
+| *User* | UML Actor / "user system". |
+| *Admin* | Role / UML Actor. |
 
-### Step 4: Audit Manual (5 menit)
+### Step 4: Yang TIDAK BISA di-italic otomatis
 
-Untuk **BAB I Latar Belakang** (line 1–100 di skripsi), cek manual apakah ada istilah yang kelewat:
-- "perkembangan teknologi informasi" → tidak ada istilah asing
-- "penggunaan sistem informasi berbasis web" → *web* italic
-- "framework Laravel" → *framework* italic, *Laravel* italic
-- "arsitektur Model-View-Controller" → *Model-View-Controller* italic
+- **Akronim yang dipakai di code identifier**: `$peminjaman`, `id_barangs`, `selected_id` (variabel code)
+- **Kode program**: `php artisan migrate`, `composer install`, `DB::transaction(...)`
+- **Pseudocode command**: `DISPLAY`, `THEN`, `IF`, `WHERE`, `FROM`, `SET`, `RETURN` (kecuali konteks istilah)
+- **Penomoran**: `III.`, `IV.`, `2.1.4`
+
+### Step 5: Handle Multi-Word Terms
+
+Untuk frasa multi-kata, Find & Replace dengan **case-sensitive "Match case"** di Word:
+
+| Find | Replace |
+|---|---|
+| `Use Case` | *Use Case* (italic) |
+| `Activity Diagram` | *Activity Diagram* (italic) |
+| `Sequence Diagram` | *Sequence Diagram* (italic) |
+| `Class Diagram` | *Class Diagram* (italic) |
+| `Component Diagram` | *Component Diagram* (italic) |
+| `Deployment Diagram` | *Deployment Diagram* (italic) |
+| `Entity Relationship Diagram` | *Entity Relationship Diagram* (italic) |
+| `Logical Record Structure` | *Logical Record Structure* (italic) |
+| `Unified Modeling Language` | *Unified Modeling Language* (italic) |
+| `Black Box` | *Black Box* (italic) |
+| `White Box` | *White Box* (italic) |
+| `Pre-condition` | *Pre-condition* (italic) |
+| `Post-condition` | *Post-condition* (italic) |
+| `Primary Key` | *Primary Key* (italic) |
+| `Foreign Key` | *Foreign Key* (italic) |
+| `Auto Increment` | *Auto Increment* (italic) |
+| `Model-View-Controller` | *Model-View-Controller* (italic) |
 
 ---
 
-## TOP 20 FREKUENSI (Quick Win — Prioritaskan Ini Dulu)
+## TOP 50 FREKUENSI (Quick Win — 75% dari total)
 
-| Rank | Istilah | Total | Find & Replace |
-|---|---|---|---|
-| 1 | *Web* | 100 | urgent |
-| 2 | *Laravel* | 92 | urgent |
-| 3 | *Login* | 66 | urgent |
-| 4 | *PHP* | 66 | urgent |
-| 5 | *Use Case* / *use case* | 122 | urgent |
-| 6 | *Database* | 43 | urgent |
-| 7 | *framework* | 40 | urgent |
-| 8 | *MySQL* | 39 | urgent |
-| 9 | *Server* | 38 | urgent |
-| 10 | *Browser* | 35 | urgent |
-| 11 | *Sequence Diagram* | 33 | urgent |
-| 12 | *Dashboard* | 33 | urgent |
-| 13 | *Activity Diagram* | 31 | urgent |
-| 14 | *Query* | 29 | urgent |
-| 15 | *Update* | 23 | medium |
-| 16 | *UML* | 21 | medium |
-| 17 | *Delete* | 19 | medium |
-| 18 | *CRUD* | 18 | medium |
-| 19 | *HTTPS* | 18 | medium |
-| 20 | *Waterfall* | 17 | medium |
+| # | Istilah | Total |
+|---|---|---|
+| 1 | Admin | 193 |
+| 2 | Use Case | 122 |
+| 3 | PHP | 108 |
+| 4 | Web | 100 |
+| 5 | Laravel | 92 |
+| 6 | PDF | 83 |
+| 7 | Login | 61 |
+| 8 | Database | 43 |
+| 9 | User | 43 |
+| 10 | UML | 42 |
+| 11 | MySQL | 39 |
+| 12 | Server | 38 |
+| 13 | CRUD | 36 |
+| 14 | Delete | 36 |
+| 15 | Browser | 35 |
+| 16 | HTML | 34 |
+| 17 | Sequence Diagram | 33 |
+| 18 | Dashboard | 32 |
+| 19 | CSS | 32 |
+| 20 | XAMPP | 32 |
+| 21 | Validasi | 32 |
+| 22 | Activity Diagram | 31 |
+| 23 | LRS | 30 |
+| 24 | Query | 29 |
+| 25 | ERD | 28 |
+| 26 | View | 24 |
+| 27 | MVC | 22 |
+| 28 | Menu | 21 |
+| 29 | Update | 21 |
+| 30 | Apache | 21 |
+| 31 | HTTPS | 19 |
+| 32 | Node | 18 |
+| 33 | ORM | 18 |
+| 34 | Varchar | 18 |
+| 35 | Waterfall | 17 |
+| 36 | Filter | 17 |
+| 37 | Autentikasi | 16 |
+| 38 | Nullable | 15 |
+| 39 | Black Box | 14 |
+| 40 | Testing | 14 |
+| 41 | Software | 14 |
+| 42 | Blade | 14 |
+| 43 | Artisan | 13 |
+| 44 | Create | 13 |
+| 45 | DomPDF | 12 |
+| 46 | Use Case Diagram | 10 |
+| 47 | POST | 11 |
+| 48 | Notifikasi | 11 |
+| 49 | Method | 10 |
+| 50 | Maatwebsite | 10 |
 
-**Hemat waktu**: 20 istilah ini = **900+ dari 1414 occurrences** (64% dari total). Kalau ke-20 ini di-italic, udah cukup buat sidang ulang.
+**50 istilah ini = 1717× dari 2298 = 75% dari total**.
+
+---
+
+## ESTIMASI WAKTU
+
+- Top 20 istilah: ~30 menit
+- Top 50 istilah: ~90 menit
+- 177 istilah semua: ~3 jam (skip false positive)
 
 ---
 
 ## NEXT STEP
 
-- Copy list ini ke file di repo: `docs/ITALIC_CHECKLIST_SKRIPSI.md` → push ke GitHub
-- Lo bisa langsung Find & Replace di Word satu per satu
-- Abbreviations seperti "php" di source code tidak perlu italic (sudah otomatis format monospace)
+- Sudah dipush ke repo: `docs/ITALIC_CHECKLIST_SKRIPSI.md`
+- File ini lebih lengkap dari versi sebelumnya (177 vs 102 istilah, 2298 vs 1414 occurrences)
+- Lo bisa Find & Replace di Word urut dari top frekuensi
+- Abaikan false positive sesuai skip list + step 3
 
-Mau saya push list ini ke GitHub repo `inventaris-barang` atau lo jalanin manual di Word?
+Mau saya patch langsung ke DOCX (otomatis italic pakai python-docx), atau lo jalanin manual di Word?
